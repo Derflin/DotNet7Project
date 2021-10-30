@@ -1,0 +1,11 @@
+﻿/testApi/.idea
+/testApi/bin
+/testApi/obj
+
+/testGui/.idea
+/testGui/bin
+/testGui/obj
+
+/testMvc/.idea
+/testMvc/bin
+/testMvc/obj

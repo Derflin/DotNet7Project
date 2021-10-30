@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+        api:
+                image: mvc_image
+                ports:
+                        - "175:1001"
+        gui:
+                image: api_image
+                ports:
+                        - "17583:1001"
