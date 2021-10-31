@@ -1,12 +1,37 @@
 version: '3.8'
 
 services:
+        rabbitmq_service:
+                image: rabbitmq:management
+                ports:
+                        - "5672:5672"
+                        - "15672:15672"
+                #networks:
+                #        - sensors
+                #        - backend
         gui:
                 image: si_175831_gui_image
                 ports:
                         - "1758:80"
                         - "17583:443"
+                #networks:
+                #        - backend
+                #        - frontend
         api:
                 image: si_175831_api_image
                 ports:
                         - "175:44354"
+                #networks:
+                #        - backend
+                #        - frontend
+                          
+#networks:
+#        sensors:
+#                name: si_175831_sensors
+#                driver: overlay
+#        backend:
+#                name: si_175831_backend
+#                driver: overlay
+#        frontend:
+#                name: si_175831_frontend
+#                driver: overlay
