@@ -1,11 +1,7 @@
-﻿/testApi/.idea
-/testApi/bin
-/testApi/obj
+﻿/applicationApi/.idea
+/applicationApi/bin
+/applicationApi/obj
 
-/testGui/.idea
-/testGui/bin
-/testGui/obj
-
-/testMvc/.idea
-/testMvc/bin
-/testMvc/obj
+/applicationGui/.idea
+/applicationGui/bin
+/applicationGui/obj

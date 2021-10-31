@@ -1,11 +1,12 @@
 version: '3.8'
 
 services:
-        api:
-                image: mvc_image
-                ports:
-                        - "175:1001"
         gui:
-                image: api_image
+                image: si_175831_gui_image
                 ports:
-                        - "17583:1001"
+                        - "1758:80"
+                        - "17583:443"
+        api:
+                image: si_175831_api_image
+                ports:
+                        - "175:44354"
