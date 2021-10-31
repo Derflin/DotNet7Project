@@ -26,12 +26,13 @@ namespace applicationApi.Controllers
         [Route("SendData")]
         public IActionResult Post()
         {
-            var factory = new ConnectionFactory(){HostName = "localhost", UserName = "guest", Password = "guest"};
+            var factory = new ConnectionFactory(){HostName = "rabbit", UserName = "guest", Password = "guest"};
             using(var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
+                // TODO: Change queue name
                 channel.QueueDeclare(queue: "test",
-                    durable: true,
+                    durable: false,
                     exclusive: false,
                     autoDelete: false,
                     arguments: null);
@@ -40,6 +41,7 @@ namespace applicationApi.Controllers
                 var body = Encoding.UTF8.GetBytes(message);
                 
                 channel.BasicPublish(exchange: "",
+                    // TODO: Change queue name
                     routingKey: "test",
                     basicProperties: null,
                     body: body);
