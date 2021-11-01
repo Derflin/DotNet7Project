@@ -13,7 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
-namespace applicationApi
+namespace applicationGenSensorData
 {
     public class Startup
     {
@@ -27,11 +27,11 @@ namespace applicationApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHostedService<ConsumeRabbitMQHostedService>();
+            services.AddSingleton<IMessageService, MessageService>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "applicationApi", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "applicationGenSensorData", Version = "v1" });
             });
         }
 
@@ -42,7 +42,7 @@ namespace applicationApi
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "applicationApi v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "applicationGenSensorData v1"));
             }
 
             app.UseHttpsRedirection();

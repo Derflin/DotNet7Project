@@ -1,6 +1,15 @@
 version: '3.8'
 
+# TODO: cleanup used ports selection - according to index 175831
 services:
+        sensor_data_gen:
+                image: si_175831_sensor_data_gen_image
+                ports:
+                        - "17588:17588"
+                depends_on:
+                        - rabbitmq_service
+                #networks:
+                #        - sensors
         rabbitmq_service:
                 image: rabbitmq:management
                 hostname: rabbit
@@ -10,20 +19,23 @@ services:
                 #networks:
                 #        - sensors
                 #        - backend
+        api:
+                image: si_175831_api_image
+                ports:
+                        - "175:44354"
+                depends_on:
+                        - rabbitmq_service
+                #networks:
+                #        - backend
+                #        - frontend
         gui:
                 image: si_175831_gui_image
                 ports:
                         - "1758:80"
                         - "17583:443"
+                depends_on:
+                        - api
                 #networks:
-                #        - backend
-                #        - frontend
-        api:
-                image: si_175831_api_image
-                ports:
-                        - "175:44354"
-                #networks:
-                #        - backend
                 #        - frontend
                           
 #networks:

@@ -5,3 +5,7 @@
 /applicationGui/.idea
 /applicationGui/bin
 /applicationGui/obj
+
+/applicationGenSensorData/.idea
+/applicationGenSensorData/bin
+/applicationGenSensorData/obj
