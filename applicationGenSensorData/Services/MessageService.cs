@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text;
+using System.Threading;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Exceptions;
 
 namespace applicationApi.Services
 {
@@ -12,15 +14,34 @@ namespace applicationApi.Services
 
     public class MessageService : IMessageService
     {
-        ConnectionFactory _factory;
-        IConnection _conn;
-        IModel _channel;
+        private IConnection _conn;
+        private IModel _channel;
         public MessageService()
         {
             Console.WriteLine("about to connect to rabbit");
 
-            _factory = new ConnectionFactory() { HostName = "rabbit", UserName = "guest", Password = "guest", Port = 5672 };
-            _conn = _factory.CreateConnection();
+            var factory = new ConnectionFactory() { HostName = "rabbit", UserName = "guest", Password = "guest", Port = 5672 };
+            /*
+             * TODO: this below is a temporary code for retrying connection
+             */
+            int retries = 5;
+            while (true)
+            {
+                try
+                {
+                    _conn = factory.CreateConnection();
+                    break;
+                }
+                catch (BrokerUnreachableException e)
+                {
+                    retries--;
+                    if (retries == 0) throw;
+                    Thread.Sleep(2000);
+                }
+            }
+            /*
+             * 
+             */
             _channel = _conn.CreateModel();
             _channel.QueueDeclare(queue: "sensorData",
                 durable: false,

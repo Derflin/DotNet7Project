@@ -1,10 +1,12 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using applicationApi.Controllers;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using RabbitMQ.Client.Exceptions;
 
 namespace applicationApi.Services
 {
@@ -22,7 +24,7 @@ namespace applicationApi.Services
          * not for any other message
         */
         private readonly ILogger _logger;  
-        private IConnection _connection;  
+        private IConnection _conn;  
         private IModel _channel;  
       
         public ConsumeRabbitMQHostedService(ILoggerFactory loggerFactory)  
@@ -31,11 +33,32 @@ namespace applicationApi.Services
             InitRabbitMQ();  
         }  
       
-        private void InitRabbitMQ()  
-        {  
-            var factory = new ConnectionFactory { HostName = "rabbit", UserName = "guest", Password = "guest"};
-            _connection = factory.CreateConnection();
-            _channel = _connection.CreateModel();  
+        private void InitRabbitMQ()
+        {
+            var factory = new ConnectionFactory {HostName = "rabbit", UserName = "guest", Password = "guest", Port = 5672 };
+            /*
+             * TODO: this below is a temporary code for retrying connection
+             */
+            int retries = 10;
+            while (true)
+            {
+                try
+                {
+                    _conn = factory.CreateConnection();
+                    break;
+                }
+                catch (BrokerUnreachableException e)
+                {
+                    _logger.LogInformation($"---------------------- connection refused"); 
+                    retries--;
+                    if (retries == 0) throw;
+                    Thread.Sleep(1000);
+                }
+            }
+            /*
+             * 
+             */
+            _channel = _conn.CreateModel();  
             _channel.QueueDeclare(queue: "sensorData",
                 durable: false,
                 exclusive: false,
@@ -43,7 +66,7 @@ namespace applicationApi.Services
                 arguments: null);
             _channel.BasicQos(0, 1, false);  
       
-            _connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;  
+            _conn.ConnectionShutdown += RabbitMQ_ConnectionShutdown;  
         }  
       
         protected override Task ExecuteAsync(CancellationToken stoppingToken)  
@@ -85,7 +108,7 @@ namespace applicationApi.Services
         public override void Dispose()  
         {  
             _channel.Close();  
-            _connection.Close();  
+            _conn.Close();  
             base.Dispose();  
         }  
     }
