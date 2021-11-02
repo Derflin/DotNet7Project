@@ -18,11 +18,6 @@ namespace applicationApi.Services
      */
     public class ConsumeRabbitMQHostedService : BackgroundService
     {
-        /* TODO: injecting ILogger causes stack trace to appear at the first time when the service is started 
-         * but somehow it doesn't crash
-         * and only appears once, when the first message appears in rabbitMQ queue
-         * not for any other message
-        */
         private readonly ILogger _logger;  
         private IConnection _conn;  
         private IModel _channel;  
@@ -35,11 +30,8 @@ namespace applicationApi.Services
       
         private void InitRabbitMQ()
         {
-            var factory = new ConnectionFactory {HostName = "rabbit", UserName = "guest", Password = "guest", Port = 5672 };
-            /*
-             * TODO: this below is a temporary code for retrying connection
-             */
-            int retries = 10;
+            var factory = new ConnectionFactory { HostName = "rabbit", UserName = "guest", Password = "guest" };
+            int retries = 5;
             while (true)
             {
                 try
@@ -49,15 +41,11 @@ namespace applicationApi.Services
                 }
                 catch (BrokerUnreachableException e)
                 {
-                    _logger.LogInformation($"---------------------- connection refused"); 
                     retries--;
                     if (retries == 0) throw;
-                    Thread.Sleep(1000);
+                    Thread.Sleep(2000);
                 }
             }
-            /*
-             * 
-             */
             _channel = _conn.CreateModel();  
             _channel.QueueDeclare(queue: "sensorData",
                 durable: false,

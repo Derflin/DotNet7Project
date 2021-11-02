@@ -20,10 +20,7 @@ namespace applicationApi.Services
         {
             Console.WriteLine("about to connect to rabbit");
 
-            var factory = new ConnectionFactory() { HostName = "rabbit", UserName = "guest", Password = "guest", Port = 5672 };
-            /*
-             * TODO: this below is a temporary code for retrying connection
-             */
+            var factory = new ConnectionFactory() { HostName = "rabbit", UserName = "guest", Password = "guest" };
             int retries = 5;
             while (true)
             {
@@ -39,9 +36,6 @@ namespace applicationApi.Services
                     Thread.Sleep(2000);
                 }
             }
-            /*
-             * 
-             */
             _channel = _conn.CreateModel();
             _channel.QueueDeclare(queue: "sensorData",
                 durable: false,
