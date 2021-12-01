@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\milka\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\milka\\.nuget\\packages"
+    ]
+  }
+}

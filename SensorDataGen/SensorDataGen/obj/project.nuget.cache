@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "frhCFdT30vDkHwJ6fFBBJDTiTonNCZl6y98And4/NP7Cmb09WtoOWauZL4bNX9jqzuK0IMIYE1OvyhMEI6qxDw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\milka\\Kody\\VisualStudioProjects\\SensorDataGen\\SensorDataGen\\SensorDataGen.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\milka\\.nuget\\packages\\rabbitmq.client\\6.2.2\\rabbitmq.client.6.2.2.nupkg.sha512",
+    "C:\\Users\\milka\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
+    "C:\\Users\\milka\\.nuget\\packages\\system.threading.channels\\4.7.1\\system.threading.channels.4.7.1.nupkg.sha512",
+    "C:\\Users\\milka\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.18\\microsoft.netcore.app.host.win-x64.3.1.18.nupkg.sha512"
+  ],
+  "logs": []
+}
