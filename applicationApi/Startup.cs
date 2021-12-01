@@ -1,3 +1,4 @@
+using applicationApi.Formatters;
 using applicationApi.Models;
 using applicationApi.Services;
 using Microsoft.AspNetCore.Builder;
@@ -40,7 +41,11 @@ namespace applicationApi
             services.AddSingleton<TemperatureSensorService>();
             services.AddSingleton<WindSensorService>();
 
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.OutputFormatters.Add(new CsvOutputFormatter());
+            });
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "applicationApi", Version = "v1" });

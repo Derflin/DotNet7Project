@@ -49,7 +49,7 @@ namespace applicationApi.Formatters
         {
             var response = context.HttpContext.Response;
 
-            var saveAsFileName = "products.csv";
+            var saveAsFileName = "sensors.csv";
             response.ContentType = "text/csv";
             response.Headers.Add("Content-Disposition", string.Format("attachment;filename={0}", saveAsFileName));
         }

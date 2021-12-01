@@ -31,7 +31,7 @@ namespace applicationApi.Controllers
         }
         
         [HttpGet]
-        public List<String> GetDistinctSensors()
+        public List<string> GetDistinctSensors()
         {
             var listHumidity = _humiditySensorService.GetDistinctMacAddresses();
             var listPressure = _pressureSensorService.GetDistinctMacAddresses();
@@ -40,5 +40,25 @@ namespace applicationApi.Controllers
             var outputList = listHumidity.Union(listPressure).Union(listTemperature).Union(listWind).ToList();
             return outputList;
         }
+        
+        /*
+         TODO: 
+        [HttpGet("getDistinctSensorsJson")]
+        public IActionResult ListJson()
+        {
+            List<String> sensors = this.GetDistinctSensors();
+
+            return Ok(sensors);
+        }
+        
+        [Produces("text/csv")]
+        [HttpGet("getDistinctSensorsCsv")]
+        public IActionResult ListCsv()
+        {
+            List<String> sensors = this.GetDistinctSensors();
+
+            return Ok(sensors);
+        }
+        */
     }
 }
