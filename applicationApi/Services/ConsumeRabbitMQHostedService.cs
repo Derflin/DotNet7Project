@@ -24,7 +24,7 @@ namespace applicationApi.Services
       
         public ConsumeRabbitMQHostedService(ILoggerFactory loggerFactory)  
         {
-            this._logger = loggerFactory.CreateLogger<ConsumeRabbitMQHostedService>();  
+            this._logger = loggerFactory.CreateLogger<ConsumeRabbitMQHostedService>();
             InitRabbitMQ();  
         }  
       

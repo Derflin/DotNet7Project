@@ -1,16 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using applicationApi.Models;
 using applicationApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 
 namespace applicationApi
@@ -27,15 +22,28 @@ namespace applicationApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHostedService<ConsumeRabbitMQHostedService>();
+            // Adding service responsible for consuming messages that are posted in used message queue
+            // TODO: uncomment below line when API will be done
+            // services.AddHostedService<ConsumeRabbitMQHostedService>();
+            
+            // TODO: change "ConnectionString" value in "appsettings.json" to connect to local MongoDB available on deployment cluster
+            // Acquiring configuration data defined in "appsettings.json"
+            services.Configure<SensorsDatabaseSettings>(
+                Configuration.GetSection(nameof(SensorsDatabaseSettings)));
+            // Defining Singleton containing configuration data acquired above
+            services.AddSingleton<ISensorsDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<SensorsDatabaseSettings>>().Value);
+
+            // Defining Singletons that are services sharing CRUD methods for each entity class used
+            services.AddSingleton<WindSensorService>();
+            
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "applicationApi", Version = "v1" });
             });
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
