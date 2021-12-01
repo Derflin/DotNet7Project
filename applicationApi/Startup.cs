@@ -35,8 +35,11 @@ namespace applicationApi
                 sp.GetRequiredService<IOptions<SensorsDatabaseSettings>>().Value);
 
             // Defining Singletons that are services sharing CRUD methods for each entity class used
+            services.AddSingleton<HumiditySensorService>();
+            services.AddSingleton<PressureSensorService>();
+            services.AddSingleton<TemperatureSensorService>();
             services.AddSingleton<WindSensorService>();
-            
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

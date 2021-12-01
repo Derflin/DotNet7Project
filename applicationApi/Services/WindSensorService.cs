@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using applicationApi.Models;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace applicationApi.Services
@@ -21,6 +22,12 @@ namespace applicationApi.Services
 
         public WindSensor Get(string id) =>
             _windSensors.Find<WindSensor>(windSensor => windSensor.Id == id).FirstOrDefault();
+
+        public List<WindSensor> GetByMacAddress(string macAddress) =>
+            _windSensors.Find<WindSensor>(windSensor => windSensor.MacAddress == macAddress).ToList();
+
+        public List<string> GetDistinctMacAddresses() =>
+            _windSensors.Distinct<string>("MacAddress", new BsonDocument()).ToList();
 
         public WindSensor Create(WindSensor windSensor)
         {
