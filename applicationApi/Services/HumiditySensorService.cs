@@ -49,5 +49,10 @@ namespace applicationApi.Services
         {
             _humiditySensors.DeleteOne(humiditySensor => humiditySensor.Id == id);
         }
+
+        public void RemoveAll()
+        {
+            _humiditySensors.DeleteMany(humiditySensor => true);
+        }
     }
 }

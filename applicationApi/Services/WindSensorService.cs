@@ -49,5 +49,10 @@ namespace applicationApi.Services
         {
             _windSensors.DeleteOne(windSensor => windSensor.Id == id);
         }
+
+        public void RemoveAll()
+        {
+            _windSensors.DeleteMany(windSensor => true);
+        }
     }
 }

@@ -40,6 +40,17 @@ namespace applicationApi.Controllers
             var outputList = listHumidity.Union(listPressure).Union(listTemperature).Union(listWind).ToList();
             return outputList;
         }
+
+        [HttpDelete]
+        public IActionResult ClearData()
+        {
+            _humiditySensorService.RemoveAll();
+            _pressureSensorService.RemoveAll();
+            _temperatureSensorService.RemoveAll();
+            _windSensorService.RemoveAll();
+            
+            return NoContent();
+        }
         
         /*
          TODO: 

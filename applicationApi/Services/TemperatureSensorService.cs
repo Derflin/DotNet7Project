@@ -49,5 +49,10 @@ namespace applicationApi.Services
         {
             _temperatureSensors.DeleteOne(temperatureSensor => temperatureSensor.Id == id);
         }
+
+        public void RemoveAll()
+        {
+            _temperatureSensors.DeleteMany(temperatureSensor => true);
+        }
     }
 }

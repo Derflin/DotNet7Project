@@ -49,5 +49,10 @@ namespace applicationApi.Services
         {
             _pressureSensors.DeleteOne(pressureSensor => pressureSensor.Id == id);
         }
+
+        public void RemoveAll()
+        {
+            _pressureSensors.DeleteMany(pressureSensor => true);
+        }
     }
 }
