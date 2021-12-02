@@ -15,7 +15,7 @@ namespace SensorDataGen.Classes.Sensors
 
         public Humidity()
         {
-            dataGenSpeed = GetDataPerSec(10);
+            dataGenSpeed = GetDataPerSec(dataPerSec);
             macAddress = GetRandomMacAddress();
             humidity = GenerateRandomValue();
             sensorType = "humidity";
@@ -25,8 +25,9 @@ namespace SensorDataGen.Classes.Sensors
         {
             this.minValue = minValue;
             this.maxValue = maxValue;
-            dataGenSpeed = GetDataPerSec(dataPerSec);
+            this.dataPerSec = dataPerSec;
 
+            dataGenSpeed = GetDataPerSec(dataPerSec);
             macAddress = GetRandomMacAddress();
             humidity = GenerateRandomValue();
             sensorType = "humidity";
@@ -46,9 +47,20 @@ namespace SensorDataGen.Classes.Sensors
         {
             humidity = GenerateRandomValue();
         }
+        public override object GetMaxValue()
+        {
+            return this.maxValue;
+        }
+
+        public override object GetMinValue()
+        {
+            return this.minValue;
+        }
+
         public override string ToString()
         {
             return $"{macAddress};{sensorType};{humidity}";
         }
+
     }
 }

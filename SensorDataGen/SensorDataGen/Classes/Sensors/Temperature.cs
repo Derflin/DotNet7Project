@@ -16,7 +16,7 @@ namespace SensorDataGen.Classes.Sensors
 
         public Temperature()
         {
-            dataGenSpeed = GetDataPerSec(10);
+            dataGenSpeed = GetDataPerSec(dataPerSec);
             macAddress = GetRandomMacAddress();
             celsius = GenerateRandomValue();
             fahrenheit = CelsiusToFahrenheit(celsius);
@@ -26,8 +26,9 @@ namespace SensorDataGen.Classes.Sensors
         {
             this.minValue = minValue;
             this.maxValue = maxValue;
-            dataGenSpeed = GetDataPerSec(dataPerSec);
+            this.dataPerSec = dataPerSec;
 
+            dataGenSpeed = GetDataPerSec(dataPerSec);
             macAddress = GetRandomMacAddress();
             celsius = GenerateRandomValue();
             fahrenheit = CelsiusToFahrenheit(celsius);
@@ -48,6 +49,15 @@ namespace SensorDataGen.Classes.Sensors
         {
             celsius = GenerateRandomValue();
             fahrenheit = CelsiusToFahrenheit(celsius);
+        }
+        public override object GetMaxValue()
+        {
+            return this.maxValue;
+        }
+
+        public override object GetMinValue()
+        {
+            return this.minValue;
         }
         public override string ToString()
         {

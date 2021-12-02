@@ -10,4 +10,7 @@
 /applicationGenSensorData/bin
 /applicationGenSensorData/obj
 
+/SensorDataGen/SensorDataGen/obj
+/SensorDataGen/SensorDataGen/bin
+
 Komendy.txt

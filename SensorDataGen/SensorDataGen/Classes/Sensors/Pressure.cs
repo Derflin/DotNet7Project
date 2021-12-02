@@ -15,7 +15,7 @@ namespace SensorDataGen.Classes.Sensors
 
         public Pressure()
         {
-            dataGenSpeed = GetDataPerSec(10);
+            dataGenSpeed = GetDataPerSec(dataPerSec);
             macAddress = GetRandomMacAddress();
             pressure = GenerateRandomValue();
             sensorType = "pressure";
@@ -24,8 +24,9 @@ namespace SensorDataGen.Classes.Sensors
         {
             this.minValue = minValue;
             this.maxValue = maxValue;
-            dataGenSpeed = GetDataPerSec(dataPerSec);
+            this.dataPerSec = dataPerSec;
 
+            dataGenSpeed = GetDataPerSec(dataPerSec);
             macAddress = GetRandomMacAddress();
             pressure = GenerateRandomValue();
             sensorType = "pressure";
@@ -43,6 +44,15 @@ namespace SensorDataGen.Classes.Sensors
         public override void GenerateNewValue()
         {
             pressure = GenerateRandomValue();
+        }
+        public override object GetMaxValue()
+        {
+            return this.maxValue;
+        }
+
+        public override object GetMinValue()
+        {
+            return this.minValue;
         }
         public override string ToString()
         {

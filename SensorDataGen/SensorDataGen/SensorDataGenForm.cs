@@ -11,6 +11,7 @@ using RabbitMQ.Client;
 using SensorDataGen.Classes;
 using SensorDataGen.Classes.Controllers;
 using System.Threading;
+using SensorDataGen.Classes.Sensors;
 
 namespace SensorDataGen
 {
@@ -42,6 +43,10 @@ namespace SensorDataGen
             addSensorTypeCB.DataSource = new BindingSource(sensorTypeDic, null);
             addSensorTypeCB.DisplayMember = "Value";
             addSensorTypeCB.ValueMember = "Key";
+
+            sensorsLB.HeaderStyle = ColumnHeaderStyle.None;
+            sensorsLB.Columns.Add("Czujniki", -2);
+            sensorsLB.View = View.Details;
         }
 
         private void stopBt_Click(object sender, EventArgs e)
@@ -85,7 +90,8 @@ namespace SensorDataGen
             errorLabel.Visible = false;
 
             string sensorType = ((KeyValuePair<string, string>)addSensorTypeCB.SelectedItem).Key;
-            object sensor;
+            int sensorsNumber = decimal.ToInt32(sensorsNumberNUD.Value);
+            Sensor sensor;
 
             if (addSensorAdvanceCheck.Checked)
             {
@@ -96,9 +102,14 @@ namespace SensorDataGen
 
                 if(minValue <= maxValue)
                 {
-                    sensor = sensorsController.AddSensor(sensorType, minValue, maxValue, dataPerSec);
-                    //sensorsLB.Items.Add($"MAC: {sensor}  Typ: {((KeyValuePair<string, string>)addSensorTypeCB.SelectedItem).Value} Min: {minValue} Max: {maxValue} DnS: {dataPerSec}");
-                    sensorsLB.Items.Add(sensor);
+                    for (int i = 0; i < sensorsNumber; i++)
+                    {
+                        sensor = sensorsController.AddSensor(sensorType, minValue, maxValue, dataPerSec);
+                        
+                        ListViewItem listViewItem = new ListViewItem($"MAC: {sensor.macAddress} Typ: {((KeyValuePair<string, string>)addSensorTypeCB.SelectedItem).Value} Min: {sensor.GetMinValue()} Max: {sensor.GetMaxValue()} DnS: {dataPerSec}");
+                        listViewItem.Tag = sensor;
+                        sensorsLB.Items.Add(listViewItem);
+                    }
                 }
                 else
                 {
@@ -108,21 +119,27 @@ namespace SensorDataGen
             }
             else
             {
-                sensor = sensorsController.AddSensor(sensorType);
-                //sensorsLB.Items.Add($"MAC: {sensor}  Typ: {((KeyValuePair<string, string>)addSensorTypeCB.SelectedItem).Value} Ustawienia domyślne");
-                sensorsLB.Items.Add(sensor);
+                for (int i = 0; i < sensorsNumber; i++)
+                {
+                    sensor = sensorsController.AddSensor(sensorType);
+
+                    ListViewItem listViewItem = new ListViewItem($"MAC: {sensor.macAddress} Typ: {((KeyValuePair<string, string>)addSensorTypeCB.SelectedItem).Value} Min: {sensor.GetMinValue()} Max: {sensor.GetMaxValue()} DnS: {sensor.dataPerSec}");
+                    listViewItem.Tag = sensor;
+
+                    sensorsLB.Items.Add(listViewItem);
+                }
             }
 
         }
 
         private void sensorLB_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            object sensor = sensorsLB.SelectedItem;
+            ListViewItem sensorListItem = (ListViewItem)sensorsLB.SelectedItems[0];
 
-            if(sensor != null)
+            if(sensorListItem.Tag != null)
             {
-                sensorsController.DeleteSensor(sensor);
-                sensorsLB.Items.Remove(sensor);
+                sensorsController.DeleteSensor(sensorListItem.Tag);
+                sensorsLB.Items.Remove(sensorListItem);
             }
         }
     }

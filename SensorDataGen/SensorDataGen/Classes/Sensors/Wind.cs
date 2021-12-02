@@ -18,7 +18,7 @@ namespace SensorDataGen.Classes.Sensors
 
         public Wind()
         {
-            dataGenSpeed = GetDataPerSec(10);
+            dataGenSpeed = GetDataPerSec(dataPerSec);
             macAddress = GetRandomMacAddress();
             speed = GenerateRandomValue();
             direction = GenerateRandomValue(0, 360);
@@ -29,8 +29,9 @@ namespace SensorDataGen.Classes.Sensors
         {
             this.minValue = minValue;
             this.maxValue = maxValue;
-            dataGenSpeed = GetDataPerSec(dataPerSec);
+            this.dataPerSec = dataPerSec;
 
+            dataGenSpeed = GetDataPerSec(dataPerSec);
             macAddress = GetRandomMacAddress();
             speed = GenerateRandomValue();
             direction = GenerateRandomValue(0, 360);
@@ -50,6 +51,16 @@ namespace SensorDataGen.Classes.Sensors
         public override void GenerateNewValue()
         {
             speed = GenerateRandomValue();
+            direction = GenerateRandomValue(0, 360);
+        }
+        public override object GetMaxValue()
+        {
+            return this.maxValue;
+        }
+
+        public override object GetMinValue()
+        {
+            return this.minValue;
         }
         public override string ToString()
         {
