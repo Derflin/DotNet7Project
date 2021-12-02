@@ -106,30 +106,30 @@ namespace applicationApi.Services
                         var humiditySensor = new HumiditySensor();
                         humiditySensor.Timestamp = GetTimestamp(DateTime.Now);
                         humiditySensor.MacAddress = data[0];
-                        humiditySensor.Humidity = Double.Parse(data[1]);
+                        humiditySensor.Humidity = Double.Parse(data[2]);
                         _humiditySensorService.Create(humiditySensor);
                         break;
                     case "pressure":
                         var pressureSensor = new PressureSensor();
                         pressureSensor.Timestamp = GetTimestamp(DateTime.Now);
                         pressureSensor.MacAddress = data[0];
-                        pressureSensor.Pressure = Int32.Parse(data[1]);
+                        pressureSensor.Pressure = Int32.Parse(data[2]);
                         _pressureSensorService.Create(pressureSensor);
                         break;
                     case "temperature":
                         var temperatureSensor = new TemperatureSensor();
                         temperatureSensor.Timestamp = GetTimestamp(DateTime.Now);
                         temperatureSensor.MacAddress = data[0];
-                        temperatureSensor.Celsius = Double.Parse(data[1]);
-                        temperatureSensor.Fahrenheit = Double.Parse(data[2]);
+                        temperatureSensor.Celsius = Double.Parse(data[2]);
+                        temperatureSensor.Fahrenheit = Double.Parse(data[3]);
                         _temperatureSensorService.Create(temperatureSensor);
                         break;
                     case "wind":
                         var windSensor = new WindSensor();
                         windSensor.Timestamp = GetTimestamp(DateTime.Now);
                         windSensor.MacAddress = data[0];
-                        windSensor.Speed = Int32.Parse(data[1]);
-                        windSensor.Direction = Int32.Parse(data[2]);
+                        windSensor.Speed = Int32.Parse(data[2]);
+                        windSensor.Direction = Int32.Parse(data[3]);
                         _windSensorService.Create(windSensor);
                         break;
                 }
