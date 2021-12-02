@@ -24,8 +24,7 @@ namespace applicationApi
         public void ConfigureServices(IServiceCollection services)
         {
             // Adding service responsible for consuming messages that are posted in used message queue
-            // TODO: uncomment below line when API will be done
-            // services.AddHostedService<ConsumeRabbitMQHostedService>();
+            services.AddHostedService<ConsumeRabbitMQHostedService>();
             
             // TODO: change "ConnectionString" value in "appsettings.json" to connect to local MongoDB available on deployment cluster
             // Acquiring configuration data defined in "appsettings.json"
