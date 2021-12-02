@@ -104,21 +104,21 @@ namespace applicationApi.Services
                 {
                     case "humidity":
                         var humiditySensor = new HumiditySensor();
-                        humiditySensor.Timestamp = GetTimestamp(DateTime.Now);
+                        humiditySensor.Timestamp = DateTime.Now;
                         humiditySensor.MacAddress = data[0];
                         humiditySensor.Humidity = Double.Parse(data[2]);
                         _humiditySensorService.Create(humiditySensor);
                         break;
                     case "pressure":
                         var pressureSensor = new PressureSensor();
-                        pressureSensor.Timestamp = GetTimestamp(DateTime.Now);
+                        pressureSensor.Timestamp = DateTime.Now;
                         pressureSensor.MacAddress = data[0];
                         pressureSensor.Pressure = Int32.Parse(data[2]);
                         _pressureSensorService.Create(pressureSensor);
                         break;
                     case "temperature":
                         var temperatureSensor = new TemperatureSensor();
-                        temperatureSensor.Timestamp = GetTimestamp(DateTime.Now);
+                        temperatureSensor.Timestamp = DateTime.Now;
                         temperatureSensor.MacAddress = data[0];
                         temperatureSensor.Celsius = Double.Parse(data[2]);
                         temperatureSensor.Fahrenheit = Double.Parse(data[3]);
@@ -126,7 +126,7 @@ namespace applicationApi.Services
                         break;
                     case "wind":
                         var windSensor = new WindSensor();
-                        windSensor.Timestamp = GetTimestamp(DateTime.Now);
+                        windSensor.Timestamp = DateTime.Now;
                         windSensor.MacAddress = data[0];
                         windSensor.Speed = Int32.Parse(data[2]);
                         windSensor.Direction = Int32.Parse(data[3]);

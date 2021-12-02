@@ -1,3 +1,4 @@
+using System;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -11,7 +12,7 @@ namespace applicationApi.Models
         
         public string MacAddress { get; set; }
 
-        public string Timestamp { get; set; }
+        public DateTime Timestamp { get; set; }
         
         public string Type { get; set; }
     }
