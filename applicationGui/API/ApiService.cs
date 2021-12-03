@@ -12,7 +12,7 @@ namespace applicationGui.API
     {
         public List<PressureSensor> GetPressureSensorData()
         {
-            var responseBody = _makeHttpGet("http://localhost:175/api/sensors/pressure");
+            var responseBody = _makeHttpGet("http://localhost:17584/api/sensors/pressure");
             List<PressureSensor> parsedList = JsonConvert.DeserializeObject<List<PressureSensor>>(responseBody);
 
             /*
@@ -31,7 +31,7 @@ namespace applicationGui.API
 
         public List<HumiditySensor> GetHumiditySensorData()
         {
-            var responseBody = _makeHttpGet("http://localhost:175/api/sensors/humidity");
+            var responseBody = _makeHttpGet("http://localhost:17584/api/sensors/humidity");
             List<HumiditySensor> parsedList = JsonConvert.DeserializeObject<List<HumiditySensor>>(responseBody);
 
             /*
@@ -50,7 +50,7 @@ namespace applicationGui.API
 
         public List<TemperatureSensor> GetTemperatureSensorData()
         {
-            var responseBody = _makeHttpGet("http://localhost:175/api/sensors/temperature");
+            var responseBody = _makeHttpGet("http://localhost:17584/api/sensors/temperature");
             List<TemperatureSensor> parsedList = JsonConvert.DeserializeObject<List<TemperatureSensor>>(responseBody);
 
             /*
@@ -88,7 +88,7 @@ namespace applicationGui.API
 
         public List<WindSensor> GetWindSensorData()
         {
-            var responseBody = _makeHttpGet("http://localhost:175/api/sensors/wind");
+            var responseBody = _makeHttpGet("http://localhost:17584/api/sensors/wind");
             List<WindSensor> parsedList = JsonConvert.DeserializeObject<List<WindSensor>>(responseBody);
 
             /*
