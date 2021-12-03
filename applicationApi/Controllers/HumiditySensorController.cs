@@ -20,13 +20,15 @@ namespace applicationApi.Controllers
         }
         
         [HttpGet]
-        public ActionResult<List<HumiditySensor>> Get() =>
-            _humiditySensorService.Get();
+        public ActionResult<PaginatedListSensor<HumiditySensor>> Get(string address, int page, int size, string sort, string order)
+        {
+            List<HumiditySensor> items = _humiditySensorService.Get(page, size, address, sort, order);
+            PaginatedListSensor<HumiditySensor> paginatedList =
+                new PaginatedListSensor<HumiditySensor>(items, items.Count, page, size);
+            return paginatedList;
+        }
 
-        [HttpGet("{macAddress:length(12)}", Name = "GetHumiditySensor")]
-        public ActionResult<List<HumiditySensor>> Get(string macAddress) => 
-            _humiditySensorService.GetByMacAddress(macAddress);
-
+        /*
         [HttpDelete("{macAddress:length(12)}")]
         public IActionResult Delete(string macAddress)
         {
@@ -39,5 +41,6 @@ namespace applicationApi.Controllers
 
             return NoContent();
         }
+        */
     }
 }

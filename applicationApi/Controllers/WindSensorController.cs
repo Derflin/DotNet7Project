@@ -20,13 +20,15 @@ namespace applicationApi.Controllers
         }
         
         [HttpGet]
-        public ActionResult<List<WindSensor>> Get() =>
-            _windSensorService.Get();
+        public ActionResult<PaginatedListSensor<WindSensor>> Get(string address, int page, int size, string sort, string order)
+        {
+            List<WindSensor> items = _windSensorService.Get(page, size, address, sort, order);
+            PaginatedListSensor<WindSensor> paginatedList =
+                new PaginatedListSensor<WindSensor>(items, items.Count, page, size);
+            return paginatedList;
+        }
 
-        [HttpGet("{macAddress:length(12)}", Name = "GetWindSensor")]
-        public ActionResult<List<WindSensor>> Get(string macAddress) => 
-            _windSensorService.GetByMacAddress(macAddress);
-
+        /*
         [HttpDelete("{macAddress:length(12)}")]
         public IActionResult Delete(string macAddress)
         {
@@ -39,5 +41,6 @@ namespace applicationApi.Controllers
 
             return NoContent();
         }
+        */
     }
 }

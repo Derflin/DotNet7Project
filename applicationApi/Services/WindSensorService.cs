@@ -17,14 +17,49 @@ namespace applicationApi.Services
             _windSensors = database.GetCollection<WindSensor>(settings.WindSensorsCollectionName);
         }
 
-        public List<WindSensor> Get() =>
-            _windSensors.Find(windSensor => true).ToList();
+        public List<WindSensor> Get(int page, int size, string filterMacAddress = null, string sort = null, string order = null)
+        {
+            IFindFluent<WindSensor, WindSensor> findQuery = null;
+            if (filterMacAddress == null)
+            {
+                findQuery = _windSensors.Find(wind => true);
+            }
+            else
+            {
+                findQuery = _windSensors.Find(windSensor => windSensor.MacAddress == filterMacAddress);
+            }
+            findQuery = SortQuery(findQuery, sort, order);
+            return findQuery.ToList();
+        }
 
-        public WindSensor Get(string id) =>
-            _windSensors.Find<WindSensor>(windSensor => windSensor.Id == id).FirstOrDefault();
-
-        public List<WindSensor> GetByMacAddress(string macAddress) =>
-            _windSensors.Find<WindSensor>(windSensor => windSensor.MacAddress == macAddress).ToList();
+        private IFindFluent<WindSensor, WindSensor> SortQuery(
+            IFindFluent<WindSensor, WindSensor> findQuery, 
+            string sort, 
+            string order) 
+        {
+            if (sort == null || sort == "date")
+            {
+                if (order != null && order == "asc")
+                {
+                    findQuery.SortBy(bson => bson.DateTime);
+                }
+                else //if (order == null || order = "desc")
+                {
+                    findQuery.SortByDescending(bson => bson.DateTime);
+                }
+            } else if (sort == "value")
+            {
+                if (order != null && order == "asc")
+                {
+                    findQuery.SortBy(bson => bson.Speed);
+                }
+                else //if (order == null || order = "desc")
+                {
+                    findQuery.SortByDescending(bson => bson.Speed);
+                }
+            }
+            return findQuery;
+        }
 
         public List<string> GetDistinctMacAddresses() =>
             _windSensors.Distinct<string>("MacAddress", new BsonDocument()).ToList();

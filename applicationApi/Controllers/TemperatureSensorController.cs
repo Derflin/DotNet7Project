@@ -20,13 +20,15 @@ namespace applicationApi.Controllers
         }
         
         [HttpGet]
-        public ActionResult<List<TemperatureSensor>> Get() =>
-            _temperatureSensorService.Get();
+        public ActionResult<PaginatedListSensor<TemperatureSensor>> Get(string address, int page, int size, string sort, string order)
+        {
+            List<TemperatureSensor> items = _temperatureSensorService.Get(page, size, address, sort, order);
+            PaginatedListSensor<TemperatureSensor> paginatedList =
+                new PaginatedListSensor<TemperatureSensor>(items, items.Count, page, size);
+            return paginatedList;
+        }
 
-        [HttpGet("{macAddress:length(12)}", Name = "GetTemperatureSensor")]
-        public ActionResult<List<TemperatureSensor>> Get(string macAddress) => 
-            _temperatureSensorService.GetByMacAddress(macAddress);
-
+        /*
         [HttpDelete("{macAddress:length(12)}")]
         public IActionResult Delete(string macAddress)
         {
@@ -39,5 +41,6 @@ namespace applicationApi.Controllers
 
             return NoContent();
         }
+        */
     }
 }

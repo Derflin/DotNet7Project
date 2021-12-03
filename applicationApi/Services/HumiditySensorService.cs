@@ -17,14 +17,49 @@ namespace applicationApi.Services
             _humiditySensors = database.GetCollection<HumiditySensor>(settings.HumiditySensorsCollectionName);
         }
 
-        public List<HumiditySensor> Get() =>
-            _humiditySensors.Find(humidity => true).ToList();
+        public List<HumiditySensor> Get(int page, int size, string filterMacAddress = null, string sort = null, string order = null)
+        {
+            IFindFluent<HumiditySensor, HumiditySensor> findQuery = null;
+            if (filterMacAddress == null)
+            {
+                findQuery = _humiditySensors.Find(humidity => true);
+            }
+            else
+            {
+                findQuery = _humiditySensors.Find(humiditySensor => humiditySensor.MacAddress == filterMacAddress);
+            }
+            findQuery = SortQuery(findQuery, sort, order);
+            return findQuery.ToList();
+        }
 
-        public HumiditySensor Get(string id) =>
-            _humiditySensors.Find<HumiditySensor>(humiditySensor => humiditySensor.Id == id).FirstOrDefault();
-
-        public List<HumiditySensor> GetByMacAddress(string macAddress) =>
-            _humiditySensors.Find<HumiditySensor>(humiditySensor => humiditySensor.MacAddress == macAddress).ToList();
+        private IFindFluent<HumiditySensor, HumiditySensor> SortQuery(
+            IFindFluent<HumiditySensor, HumiditySensor> findQuery, 
+            string sort, 
+            string order) 
+        {
+            if (sort == null || sort == "date")
+            {
+                if (order != null && order == "asc")
+                {
+                    findQuery.SortBy(bson => bson.DateTime);
+                }
+                else //if (order == null || order = "desc")
+                {
+                    findQuery.SortByDescending(bson => bson.DateTime);
+                }
+            } else if (sort == "value")
+            {
+                if (order != null && order == "asc")
+                {
+                    findQuery.SortBy(bson => bson.Humidity);
+                }
+                else //if (order == null || order = "desc")
+                {
+                    findQuery.SortByDescending(bson => bson.Humidity);
+                }
+            }
+            return findQuery;
+        }
         
         public List<string> GetDistinctMacAddresses() =>
             _humiditySensors.Distinct<string>("MacAddress", new BsonDocument()).ToList();

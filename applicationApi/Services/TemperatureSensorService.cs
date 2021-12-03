@@ -17,14 +17,49 @@ namespace applicationApi.Services
             _temperatureSensors = database.GetCollection<TemperatureSensor>(settings.TemperatureSensorsCollectionName);
         }
 
-        public List<TemperatureSensor> Get() =>
-            _temperatureSensors.Find(temperature => true).ToList();
+        public List<TemperatureSensor> Get(int page, int size, string filterMacAddress = null, string sort = null, string order = null)
+        {
+            IFindFluent<TemperatureSensor, TemperatureSensor> findQuery = null;
+            if (filterMacAddress == null)
+            {
+                findQuery = _temperatureSensors.Find(temperature => true);
+            }
+            else
+            {
+                findQuery = _temperatureSensors.Find(temperatureSensor => temperatureSensor.MacAddress == filterMacAddress);
+            }
+            findQuery = SortQuery(findQuery, sort, order);
+            return findQuery.ToList();
+        }
 
-        public TemperatureSensor Get(string id) =>
-            _temperatureSensors.Find<TemperatureSensor>(temperatureSensor => temperatureSensor.Id == id).FirstOrDefault();
-
-        public List<TemperatureSensor> GetByMacAddress(string macAddress) =>
-            _temperatureSensors.Find<TemperatureSensor>(temperatureSensor => temperatureSensor.MacAddress == macAddress).ToList();
+        private IFindFluent<TemperatureSensor, TemperatureSensor> SortQuery(
+            IFindFluent<TemperatureSensor, TemperatureSensor> findQuery, 
+            string sort, 
+            string order) 
+        {
+            if (sort == null || sort == "date")
+            {
+                if (order != null && order == "asc")
+                {
+                    findQuery.SortBy(bson => bson.DateTime);
+                }
+                else //if (order == null || order = "desc")
+                {
+                    findQuery.SortByDescending(bson => bson.DateTime);
+                }
+            } else if (sort == "value")
+            {
+                if (order != null && order == "asc")
+                {
+                    findQuery.SortBy(bson => bson.Celsius);
+                }
+                else //if (order == null || order = "desc")
+                {
+                    findQuery.SortByDescending(bson => bson.Celsius);
+                }
+            }
+            return findQuery;
+        }
         
         public List<string> GetDistinctMacAddresses() =>
             _temperatureSensors.Distinct<string>("MacAddress", new BsonDocument()).ToList();

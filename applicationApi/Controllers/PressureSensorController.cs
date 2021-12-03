@@ -18,15 +18,17 @@ namespace applicationApi.Controllers
             this._logger = logger;
             this._pressureSensorService = pressureSensorService;
         }
-        
+
         [HttpGet]
-        public ActionResult<List<PressureSensor>> Get() =>
-            _pressureSensorService.Get();
+        public ActionResult<PaginatedListSensor<PressureSensor>> Get(string address, int page, int size, string sort, string order)
+        {
+            List<PressureSensor> items = _pressureSensorService.Get(page, size, address, sort, order);
+            PaginatedListSensor<PressureSensor> paginatedList =
+                new PaginatedListSensor<PressureSensor>(items, items.Count, page, size);
+            return paginatedList;
+        }
 
-        [HttpGet("{macAddress:length(12)}", Name = "GetPressureSensor")]
-        public ActionResult<List<PressureSensor>> Get(string macAddress) => 
-            _pressureSensorService.GetByMacAddress(macAddress);
-
+        /*
         [HttpDelete("{macAddress:length(12)}")]
         public IActionResult Delete(string macAddress)
         {
@@ -39,5 +41,6 @@ namespace applicationApi.Controllers
 
             return NoContent();
         }
+        */
     }
 }

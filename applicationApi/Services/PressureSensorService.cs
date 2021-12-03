@@ -17,15 +17,50 @@ namespace applicationApi.Services
             _pressureSensors = database.GetCollection<PressureSensor>(settings.PressureSensorsCollectionName);
         }
 
-        public List<PressureSensor> Get() =>
-            _pressureSensors.Find(pressure => true).ToList();
+        public List<PressureSensor> Get(int page, int size, string filterMacAddress = null, string sort = null, string order = null)
+        {
+            IFindFluent<PressureSensor, PressureSensor> findQuery = null;
+            if (filterMacAddress == null)
+            {
+                findQuery = _pressureSensors.Find(pressure => true);
+            }
+            else
+            {
+                findQuery = _pressureSensors.Find(pressureSensor => pressureSensor.MacAddress == filterMacAddress);
+            }
+            findQuery = SortQuery(findQuery, sort, order);
+            return findQuery.ToList();
+        }
 
-        public PressureSensor Get(string id) =>
-            _pressureSensors.Find<PressureSensor>(pressureSensor => pressureSensor.Id == id).FirstOrDefault();
+        private IFindFluent<PressureSensor, PressureSensor> SortQuery(
+            IFindFluent<PressureSensor, PressureSensor> findQuery, 
+            string sort, 
+            string order) 
+        {
+            if (sort == null || sort == "date")
+            {
+                if (order != null && order == "asc")
+                {
+                    findQuery.SortBy(bson => bson.DateTime);
+                }
+                else //if (order == null || order = "desc")
+                {
+                    findQuery.SortByDescending(bson => bson.DateTime);
+                }
+            } else if (sort == "value")
+            {
+                if (order != null && order == "asc")
+                {
+                    findQuery.SortBy(bson => bson.Pressure);
+                }
+                else //if (order == null || order = "desc")
+                {
+                    findQuery.SortByDescending(bson => bson.Pressure);
+                }
+            }
+            return findQuery;
+        }
 
-        public List<PressureSensor> GetByMacAddress(string macAddress) =>
-            _pressureSensors.Find<PressureSensor>(pressureSensor => pressureSensor.MacAddress == macAddress).ToList();
-        
         public List<string> GetDistinctMacAddresses() =>
             _pressureSensors.Distinct<string>("MacAddress", new BsonDocument()).ToList();
         
