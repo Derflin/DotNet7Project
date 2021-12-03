@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SensorDataGen.Classes.Sensors
+namespace applicationGenSensorData.Classes.Sensors
 {
     abstract class Sensor
     {

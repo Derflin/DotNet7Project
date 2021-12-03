@@ -2,30 +2,25 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SensorDataGen.Classes.Sensors
+namespace applicationGenSensorData.Classes.Sensors
 {
     [Serializable]
-    class Wind : Sensor
+    class Pressure : Sensor
     {
+        private int minValue = 800;
+        private int maxValue = 1100;
 
-        private int minValue = 0;
-        private int maxValue = 500;
+        // hPa 1000 hPa 800 - 1100
+        public int pressure { get; set; }
 
-        // kmH 0 - 500
-        public int speed { get; set; }
-        // degree 0 - 360
-        public int direction { get; set; }
-
-        public Wind()
+        public Pressure()
         {
             dataGenSpeed = GetDataPerSec(dataPerSec);
             macAddress = GetRandomMacAddress();
-            speed = GenerateRandomValue();
-            direction = GenerateRandomValue(0, 360);
-            sensorType = "wind";
+            pressure = GenerateRandomValue();
+            sensorType = "pressure";
         }
-
-        public Wind(int minValue, int maxValue, int dataPerSec)
+        public Pressure(int minValue, int maxValue, int dataPerSec)
         {
             this.minValue = minValue;
             this.maxValue = maxValue;
@@ -33,11 +28,9 @@ namespace SensorDataGen.Classes.Sensors
 
             dataGenSpeed = GetDataPerSec(dataPerSec);
             macAddress = GetRandomMacAddress();
-            speed = GenerateRandomValue();
-            direction = GenerateRandomValue(0, 360);
-            sensorType = "wind";
+            pressure = GenerateRandomValue();
+            sensorType = "pressure";
         }
-
         public int GenerateRandomValue()
         {
             var random = new Random();
@@ -50,8 +43,7 @@ namespace SensorDataGen.Classes.Sensors
         }
         public override void GenerateNewValue()
         {
-            speed = GenerateRandomValue();
-            direction = GenerateRandomValue(0, 360);
+            pressure = GenerateRandomValue();
         }
         public override object GetMaxValue()
         {
@@ -64,8 +56,7 @@ namespace SensorDataGen.Classes.Sensors
         }
         public override string ToString()
         {
-            return $"{macAddress};{sensorType};{speed};{direction}";
+            return $"{macAddress};{sensorType};{pressure}";
         }
-
     }
 }

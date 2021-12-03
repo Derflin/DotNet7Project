@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SensorDataGen
+namespace applicationGenSensorData
 {
     static class Program
     {
@@ -17,7 +17,7 @@ namespace SensorDataGen
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SensorDataGenForm());
+            Application.Run(new GenSensorDataForm());
         }
     }
 }

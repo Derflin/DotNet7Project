@@ -4,7 +4,7 @@ using System.Text;
 using RabbitMQ.Client;
 using System.Threading;
 
-namespace SensorDataGen.Classes
+namespace applicationGenSensorData.Classes
 {
     class RabbitMQController
     {

@@ -8,19 +8,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using RabbitMQ.Client;
-using SensorDataGen.Classes;
-using SensorDataGen.Classes.Controllers;
+using applicationGenSensorData.Classes;
+using applicationGenSensorData.Classes.Controllers;
 using System.Threading;
-using SensorDataGen.Classes.Sensors;
+using applicationGenSensorData.Classes.Sensors;
 
-namespace SensorDataGen
+namespace applicationGenSensorData
 {
-    public partial class SensorDataGenForm : Form
+    public partial class GenSensorDataForm : Form
     {
         private RabbitMQController rabbitController;
         private SensorsController sensorsController;
 
-        public SensorDataGenForm()
+        public GenSensorDataForm()
         {
             InitializeComponent();
             InitControllers();

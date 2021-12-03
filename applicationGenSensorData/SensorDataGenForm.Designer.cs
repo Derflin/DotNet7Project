@@ -1,7 +1,7 @@
 ﻿
-namespace SensorDataGen
+namespace applicationGenSensorData
 {
-    partial class SensorDataGenForm
+    partial class GenSensorDataForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -328,15 +328,15 @@ namespace SensorDataGen
             this.addSensorTypeLabel.TabIndex = 0;
             this.addSensorTypeLabel.Text = "Typ sensora";
             // 
-            // SensorDataGenForm
+            // GenSensorDataForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.bottomPanel);
-            this.Name = "SensorDataGenForm";
-            this.Text = "SensorDataGen";
+            this.Name = "GenSensorDataForm";
+            this.Text = "GenSensorData";
             this.bottomPanel.ResumeLayout(false);
             this.bottomPanel.PerformLayout();
             this.mainPanel.ResumeLayout(false);
