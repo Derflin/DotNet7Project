@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center" >
+
+    <h1 class="display-4" style="font-weight: bold">Dashboard</h1>
+    
+      <div class="Row">
+            <div id="chartPressure" class="Column" style="height: 400px; width: 30%;"></div>
+            <div id="chartHumidity" class="Column" style="height: 400px; width: 30%;"></div>
+        </div>
+    <div class="Row">
+        <div id="chartTemperature" class="Column" style="height: 400px; width: 30%;"></div>
+        <div id="chartWindSpeed" class="Column" style="height: 400px; width: 30%;"></div>
+    </div>
+    
+    <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+    <script type="text/javascript" src="~/js/pressureChart.js"></script>
+    <script type="text/javascript" src="~/js/humidityChart.js"></script>
+    <script type="text/javascript" src="~/js/temperatureChart.js"></script>
+    <script type="text/javascript" src="~/js/windSpeedChart.js"></script>
+
+    <script type="text/javascript">
+                window.onload = function () {   
+                $.getJSON("Rest/json/pressure/avg", addData);
+                  $.getJSON("rest/json/humidity/avg", addData2);
+                  $.getJSON("rest/json/temperature/avg", addData3);
+                  $.getJSON("rest/json/wind/avg", addData4);
+                }
+            </script>
+</div>

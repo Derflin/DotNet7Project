@@ -1,0 +1,69 @@
+﻿@model  IEnumerable<IEnumerable<WindSensor>>  
+
+<meta name="viewport" content="width=device-width"/>
+<div style="overflow:scroll;" class="example">
+    <h1 class="display-4">@ViewData["NAME"]</h1>
+    <div class="Row">
+        <h5 class="display-7">Download data: </h5>
+        <a asp-controller="Rest" asp-action="getWindData" asp-route-format="json" target="_blank" class="aLink">Download JSON</a>
+        <spacer type="horizontal" width="100" height="100"> </spacer>
+        <a asp-controller="Rest" asp-action="getWindData" asp-route-format="csv" target="_blank" class="aLink">Download CSV</a>
+    </div>
+    <div class="Row">
+        @if (Model.ToList().Count > 0)
+        {
+            <table >
+                <tr >
+                    @foreach (var sensor in Model)
+                    {
+                        <th class="table-dark" style="text-align: center; border-bottom:3px dashed gray">Sensor: </th>
+                        <th class="table-dark" style="text-align: center;  border-bottom:3px dashed gray"> </th>
+                        <th class="table-dark" style="text-align: center;  border-right:3px dashed gray; border-bottom:3px dashed gray">@sensor.ElementAt(0).Id </th>
+                    }
+                </tr>
+                <tr style=" border-bottom:1px dotted gray">
+                    @foreach (var _ in Model)
+                    {
+                        <th class="table-dark" style="text-align: center">Date</th>
+                        <th class="table-dark" style="text-align: center;">Speed </th>
+                        <th class="table-dark" style="text-align: center;  border-right:3px dashed gray">Direct. </th>
+                    }
+                </tr>
+
+                @for (int i = 0; i < Model.ToList().Max(e => e.ToList().Count); i++)
+                {
+                    <tr style=" border-bottom:1px dashed gray">
+                        @for (int k = 0; k < Model.ToList().Count; k++)
+                        {
+                            @if (k % 2 != 0)
+                            {
+                                <td class="table-dark" style=" text-align: center">
+                                    @Model.ToList().ElementAtOrDefault(k).ToList().ElementAtOrDefault(i).DateTime
+                                </td>
+                                <td class="table-dark" style="padding: 20px; text-align: center;">
+                                    @Model.ToList().ElementAtOrDefault(k).ToList().ElementAtOrDefault(i).Speed
+                                </td>
+                                <td class="table-dark" style="padding: 20px; text-align: center; border-right:3px dashed gray">
+                                    @Model.ToList().ElementAtOrDefault(k).ToList().ElementAtOrDefault(i).Direction
+                                </td>
+                            }
+                            else
+                            {
+                                <td style=" text-align: center">
+                                    @Model.ToList().ElementAtOrDefault(k).ToList().ElementAtOrDefault(i).DateTime
+                                </td>
+                                <td style="padding: 20px; text-align: center;">
+                                    @Model.ToList().ElementAtOrDefault(k).ToList().ElementAtOrDefault(i).Speed
+                                </td>
+                                <td style="padding: 20px; text-align: center; border-right:3px dotted gray">
+                                    @Model.ToList().ElementAtOrDefault(k).ToList().ElementAtOrDefault(i).Direction
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+
+            </table>
+        }
+    </div>
+</div>
