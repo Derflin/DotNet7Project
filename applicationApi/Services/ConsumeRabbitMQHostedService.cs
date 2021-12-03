@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using applicationApi.Controllers;
+using applicationApi.Models;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
@@ -18,19 +19,31 @@ namespace applicationApi.Services
      */
     public class ConsumeRabbitMQHostedService : BackgroundService
     {
-        private readonly ILogger _logger;  
+        private readonly ILogger _logger;
         private IConnection _conn;  
         private IModel _channel;  
       
-        public ConsumeRabbitMQHostedService(ILoggerFactory loggerFactory)  
+        private readonly HumiditySensorService _humiditySensorService;
+        private readonly PressureSensorService _pressureSensorService;
+        private readonly TemperatureSensorService _temperatureSensorService;
+        private readonly WindSensorService _windSensorService;
+        
+        public ConsumeRabbitMQHostedService(ILoggerFactory loggerFactory, HumiditySensorService humiditySensorService,
+            PressureSensorService pressureSensorService, TemperatureSensorService temperatureSensorService,
+            WindSensorService windSensorService)  
         {
-            this._logger = loggerFactory.CreateLogger<ConsumeRabbitMQHostedService>();  
-            InitRabbitMQ();  
+            this._logger = loggerFactory.CreateLogger<ConsumeRabbitMQHostedService>();
+            InitRabbitMQ();
+            this._humiditySensorService = humiditySensorService;
+            this._pressureSensorService = pressureSensorService;
+            this._temperatureSensorService = temperatureSensorService;
+            this._windSensorService = windSensorService;
         }  
       
         private void InitRabbitMQ()
         {
-            var factory = new ConnectionFactory { HostName = "rabbit", UserName = "guest", Password = "guest" };
+            // TODO: change HostName to "rabbit" - when running on docker 
+            var factory = new ConnectionFactory { HostName = "localhost", UserName = "guest", Password = "guest" };
             int retries = 5;
             while (true)
             {
@@ -83,10 +96,52 @@ namespace applicationApi.Services
       
         private void HandleMessage(string content)  
         {
-            // TODO: handle the message
-            _logger.LogInformation($"consumer received {content}");  
+            _logger.LogInformation($"consumer received: {content}");
+            string[] data = content.Split(";");
+            if (data.Length > 2)
+            {
+                string type = data[1];
+                switch (type)
+                {
+                    case "humidity":
+                        var humiditySensor = new HumiditySensor();
+                        humiditySensor.DateTime = DateTime.Now;
+                        humiditySensor.MacAddress = data[0];
+                        humiditySensor.Humidity = Double.Parse(data[2]);
+                        _humiditySensorService.Create(humiditySensor);
+                        break;
+                    case "pressure":
+                        var pressureSensor = new PressureSensor();
+                        pressureSensor.DateTime = DateTime.Now;
+                        pressureSensor.MacAddress = data[0];
+                        pressureSensor.Pressure = Int32.Parse(data[2]);
+                        _pressureSensorService.Create(pressureSensor);
+                        break;
+                    case "temperature":
+                        var temperatureSensor = new TemperatureSensor();
+                        temperatureSensor.DateTime = DateTime.Now;
+                        temperatureSensor.MacAddress = data[0];
+                        temperatureSensor.Celsius = Double.Parse(data[2]);
+                        temperatureSensor.Fahrenheit = Double.Parse(data[3]);
+                        _temperatureSensorService.Create(temperatureSensor);
+                        break;
+                    case "wind":
+                        var windSensor = new WindSensor();
+                        windSensor.DateTime = DateTime.Now;
+                        windSensor.MacAddress = data[0];
+                        windSensor.Speed = Int32.Parse(data[2]);
+                        windSensor.Direction = Int32.Parse(data[3]);
+                        _windSensorService.Create(windSensor);
+                        break;
+                }
+            }
         }  
           
+        public static String GetTimestamp(DateTime value)
+        {
+            return value.ToString("yyyyMMddHHmmssffff");
+        }
+        
         private void OnConsumerConsumerCancelled(object sender, ConsumerEventArgs e)  {  }  
         private void OnConsumerUnregistered(object sender, ConsumerEventArgs e) {  }  
         private void OnConsumerRegistered(object sender, ConsumerEventArgs e) {  }  
