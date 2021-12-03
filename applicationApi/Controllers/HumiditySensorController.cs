@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 namespace applicationApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/sensors/humidity")]
     public class HumiditySensorController : Controller
     {
         private readonly ILogger<HumiditySensorController> _logger;

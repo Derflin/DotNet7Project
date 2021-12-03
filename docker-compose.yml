@@ -1,14 +1,14 @@
 version: '3.8'
 
 services:
-        sensor_data_gen:
-                image: si_175831_sensor_data_gen_image
-                ports:
-                        - "17583:17588"
-                depends_on:
-                        - rabbitmq_service
-                #networks:
-                #        - sensors
+        #sensor_data_gen:
+        #        image: si_175831_sensor_data_gen_image
+        #        ports:
+        #                - "17583:17588"
+        #        depends_on:
+        #                - rabbitmq_service
+        #        #networks:
+        #        #        - sensors
         rabbitmq_service:
                 image: rabbitmq:management
                 hostname: rabbit
@@ -21,7 +21,8 @@ services:
         api:
                 image: si_175831_api_image
                 ports:
-                        - "175:44354"
+                        # TODO: do we want to add port for https?
+                        - "17584:44354"
                 depends_on:
                         - rabbitmq_service
                 #networks:

@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace applicationApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/sensors")]
     public class SensorController : Controller
     {
         private readonly ILogger<SensorController> _logger;
@@ -53,7 +53,7 @@ namespace applicationApi.Controllers
         }
         
         /*
-         TODO: 
+         TODO: something with formatters
         [HttpGet("getDistinctSensorsJson")]
         public IActionResult ListJson()
         {
