@@ -22,10 +22,18 @@ namespace applicationApi.Controllers
         [HttpGet]
         public ActionResult<PaginatedListSensor<WindSensor>> Get(string address, int page, int size, string sort, string order)
         {
-            List<WindSensor> items = _windSensorService.Get(page, size, address, sort, order);
+            List<WindSensor> items = _windSensorService.Get(address, sort, order);
             PaginatedListSensor<WindSensor> paginatedList =
                 new PaginatedListSensor<WindSensor>(items, items.Count, page, size);
             return paginatedList;
+        }
+        
+        [FormatFilter]
+        [HttpGet("{format}")]
+        public ActionResult<List<WindSensor>> GetFilter(string format, string address, string sort, string order)
+        {
+            List<WindSensor> items = _windSensorService.Get(address, sort, order);
+            return items;
         }
 
         /*

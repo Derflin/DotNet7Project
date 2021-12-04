@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 
 namespace applicationApi
@@ -43,6 +44,8 @@ namespace applicationApi
             services.AddControllers(options =>
             {
                 options.OutputFormatters.Add(new CsvOutputFormatter());
+                options.FormatterMappings.SetMediaTypeMappingForFormat("csv", 
+                    new MediaTypeHeaderValue(MyContentTypes.CSV));
             });
             
             services.AddSwaggerGen(c =>

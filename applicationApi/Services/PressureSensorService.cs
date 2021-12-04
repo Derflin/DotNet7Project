@@ -17,17 +17,18 @@ namespace applicationApi.Services
             _pressureSensors = database.GetCollection<PressureSensor>(settings.PressureSensorsCollectionName);
         }
 
-        public List<PressureSensor> Get(int page, int size, string filterMacAddress = null, string sort = null, string order = null)
+        public List<PressureSensor> Get(string filterMacAddress = null, string sort = null, string order = null)
         {
-            IFindFluent<PressureSensor, PressureSensor> findQuery = null;
-            if (filterMacAddress == null)
+            var findQuery = _pressureSensors.Find(pressure => 
+                filterMacAddress == null || pressure.MacAddress == filterMacAddress);
+            /*if (filterMacAddress == null)
             {
                 findQuery = _pressureSensors.Find(pressure => true);
             }
             else
             {
                 findQuery = _pressureSensors.Find(pressureSensor => pressureSensor.MacAddress == filterMacAddress);
-            }
+            }*/
             findQuery = SortQuery(findQuery, sort, order);
             return findQuery.ToList();
         }

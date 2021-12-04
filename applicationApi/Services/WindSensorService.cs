@@ -17,17 +17,18 @@ namespace applicationApi.Services
             _windSensors = database.GetCollection<WindSensor>(settings.WindSensorsCollectionName);
         }
 
-        public List<WindSensor> Get(int page, int size, string filterMacAddress = null, string sort = null, string order = null)
+        public List<WindSensor> Get(string filterMacAddress = null, string sort = null, string order = null)
         {
-            IFindFluent<WindSensor, WindSensor> findQuery = null;
-            if (filterMacAddress == null)
+            var findQuery = _windSensors.Find(wind => 
+                filterMacAddress == null || wind.MacAddress == filterMacAddress);
+            /*if (filterMacAddress == null)
             {
                 findQuery = _windSensors.Find(wind => true);
             }
             else
             {
                 findQuery = _windSensors.Find(windSensor => windSensor.MacAddress == filterMacAddress);
-            }
+            }*/
             findQuery = SortQuery(findQuery, sort, order);
             return findQuery.ToList();
         }

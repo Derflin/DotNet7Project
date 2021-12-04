@@ -22,10 +22,18 @@ namespace applicationApi.Controllers
         [HttpGet]
         public ActionResult<PaginatedListSensor<PressureSensor>> Get(string address, int page, int size, string sort, string order)
         {
-            List<PressureSensor> items = _pressureSensorService.Get(page, size, address, sort, order);
+            List<PressureSensor> items = _pressureSensorService.Get(address, sort, order);
             PaginatedListSensor<PressureSensor> paginatedList =
                 new PaginatedListSensor<PressureSensor>(items, items.Count, page, size);
             return paginatedList;
+        }
+        
+        [FormatFilter]
+        [HttpGet("{format}")]
+        public ActionResult<List<PressureSensor>> GetFilter(string format, string address, string sort, string order)
+        {
+            List<PressureSensor> items = _pressureSensorService.Get(address, sort, order);
+            return items;
         }
 
         /*

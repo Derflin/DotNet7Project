@@ -22,10 +22,18 @@ namespace applicationApi.Controllers
         [HttpGet]
         public ActionResult<PaginatedListSensor<HumiditySensor>> Get(string address, int page, int size, string sort, string order)
         {
-            List<HumiditySensor> items = _humiditySensorService.Get(page, size, address, sort, order);
+            List<HumiditySensor> items = _humiditySensorService.Get(address, sort, order);
             PaginatedListSensor<HumiditySensor> paginatedList =
                 new PaginatedListSensor<HumiditySensor>(items, items.Count, page, size);
             return paginatedList;
+        }
+        
+        [FormatFilter]
+        [HttpGet("{format}")]
+        public ActionResult<List<HumiditySensor>> GetFilter(string format, string address, string sort, string order)
+        {
+            List<HumiditySensor> items = _humiditySensorService.Get(address, sort, order);
+            return items;
         }
 
         /*

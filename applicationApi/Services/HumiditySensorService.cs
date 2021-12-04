@@ -17,17 +17,18 @@ namespace applicationApi.Services
             _humiditySensors = database.GetCollection<HumiditySensor>(settings.HumiditySensorsCollectionName);
         }
 
-        public List<HumiditySensor> Get(int page, int size, string filterMacAddress = null, string sort = null, string order = null)
+        public List<HumiditySensor> Get(string filterMacAddress = null, string sort = null, string order = null)
         {
-            IFindFluent<HumiditySensor, HumiditySensor> findQuery = null;
-            if (filterMacAddress == null)
+            var findQuery = _humiditySensors.Find(humidity => 
+                filterMacAddress == null || humidity.MacAddress == filterMacAddress);
+            /*if (filterMacAddress == null)
             {
                 findQuery = _humiditySensors.Find(humidity => true);
             }
             else
             {
                 findQuery = _humiditySensors.Find(humiditySensor => humiditySensor.MacAddress == filterMacAddress);
-            }
+            }*/
             findQuery = SortQuery(findQuery, sort, order);
             return findQuery.ToList();
         }

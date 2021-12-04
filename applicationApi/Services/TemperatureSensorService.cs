@@ -17,17 +17,18 @@ namespace applicationApi.Services
             _temperatureSensors = database.GetCollection<TemperatureSensor>(settings.TemperatureSensorsCollectionName);
         }
 
-        public List<TemperatureSensor> Get(int page, int size, string filterMacAddress = null, string sort = null, string order = null)
+        public List<TemperatureSensor> Get(string filterMacAddress = null, string sort = null, string order = null)
         {
-            IFindFluent<TemperatureSensor, TemperatureSensor> findQuery = null;
-            if (filterMacAddress == null)
+            var findQuery = _temperatureSensors.Find(temperature => 
+                filterMacAddress == null || temperature.MacAddress == filterMacAddress);
+            /*if (filterMacAddress == null)
             {
                 findQuery = _temperatureSensors.Find(temperature => true);
             }
             else
             {
                 findQuery = _temperatureSensors.Find(temperatureSensor => temperatureSensor.MacAddress == filterMacAddress);
-            }
+            }*/
             findQuery = SortQuery(findQuery, sort, order);
             return findQuery.ToList();
         }
