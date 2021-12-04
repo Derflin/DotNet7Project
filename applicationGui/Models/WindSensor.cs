@@ -15,7 +15,7 @@ namespace applicationGui.Models
             this.Type = "Wind";
         }
 
-        public WindSensor(string id, string macAddress, DateTime dateTime, string type, int speed, int direction) : base(id, macAddress, dateTime, type)
+        public WindSensor(string macAddress, DateTime dateTime, string type, int speed, int direction) : base(macAddress, dateTime, type)
         {
             Speed = speed;
             Direction = direction;

@@ -7,6 +7,23 @@ for details on configuring this project to bundle and minify static web assets. 
     border-spacing: 10px;
 }
 
+.GridWrapper{
+    display: grid;
+    grid-template-areas: 'menu main';
+    grid-template-columns: max-content auto;
+}
+
+.GridLeftPanel{
+    grid-area: menu;
+    grid-row-end: auto;
+    padding: 5px;
+    background-color: rgba(75,75,75,0.1);
+}
+
+.GridRightPanel{
+    grid-area: main;
+}
+
 .Column {
     display: table-cell;
 }

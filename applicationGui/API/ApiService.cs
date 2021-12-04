@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using applicationGui.Models;
 using Newtonsoft.Json;
@@ -10,10 +11,22 @@ namespace applicationGui.API
     //klasa wywołuje odpowiednie endpointy serwera 
     public class ApiService
     {
-        public List<PressureSensor> GetPressureSensorData()
+        public PaginatedListSensor<PressureSensor> GetPressureSensorData(string address = null, 
+            int page = 0, int size = 0, string sort = null, string order = null)
         {
-            var responseBody = _makeHttpGet("http://localhost:17584/api/sensors/pressure");
-            List<PressureSensor> parsedList = JsonConvert.DeserializeObject<List<PressureSensor>>(responseBody);
+            string responseBody = null;
+
+            if (address != null || page > 0 || size > 0 || sort != null || order != null)
+            {
+                responseBody = _makeHttpGet($"http://localhost:17584/api/sensors/pressure{CreateQuery(address,page,size,sort,order)}");
+            }
+            else
+            {
+                responseBody = _makeHttpGet("http://localhost:17584/api/sensors/pressure");
+            }
+
+            //List<PressureSensor> parsedList = JsonConvert.DeserializeObject<List<PressureSensor>>(responseBody);
+            PaginatedListSensor<PressureSensor> parsedList = JsonConvert.DeserializeObject<PaginatedListSensor<PressureSensor>>(responseBody);
 
             /*
             List<PressureSensor> parsedList = new List<PressureSensor>
@@ -29,11 +42,22 @@ namespace applicationGui.API
             return parsedList;
         }
 
-        public List<HumiditySensor> GetHumiditySensorData()
+        public PaginatedListSensor<HumiditySensor> GetHumiditySensorData(string address = null, 
+            int page = 0, int size = 0, string sort = null, string order = null)
         {
-            var responseBody = _makeHttpGet("http://localhost:17584/api/sensors/humidity");
-            List<HumiditySensor> parsedList = JsonConvert.DeserializeObject<List<HumiditySensor>>(responseBody);
+            string responseBody = null;
 
+            if (address != null || page > 0 || size > 0 || sort != null || order != null)
+            {
+                responseBody = _makeHttpGet($"http://localhost:17584/api/sensors/humidity{CreateQuery(address,page,size,sort,order)}");
+            }
+            else
+            {
+                responseBody = _makeHttpGet("http://localhost:17584/api/sensors/humidity");
+            }
+            
+            //List<HumiditySensor> parsedList = JsonConvert.DeserializeObject<List<HumiditySensor>>(responseBody);
+            PaginatedListSensor<HumiditySensor> parsedList = JsonConvert.DeserializeObject<PaginatedListSensor<HumiditySensor>>(responseBody);
             /*
             List<HumiditySensor> parsedList = new List<HumiditySensor>
             {
@@ -48,48 +72,70 @@ namespace applicationGui.API
             return parsedList;
         }
 
-        public List<TemperatureSensor> GetTemperatureSensorData()
+        public PaginatedListSensor<TemperatureSensor> GetTemperatureSensorData(string address = null, 
+            int page = 0, int size = 0, string sort = null, string order = null)
         {
-            var responseBody = _makeHttpGet("http://localhost:17584/api/sensors/temperature");
-            List<TemperatureSensor> parsedList = JsonConvert.DeserializeObject<List<TemperatureSensor>>(responseBody);
+            string responseBody = null;
+
+            if (address != null || page > 0 || size > 0 || sort != null || order != null)
+            {
+                responseBody = _makeHttpGet($"http://localhost:17584/api/sensors/temperature{CreateQuery(address,page,size,sort,order)}");
+            }
+            else
+            {
+                responseBody = _makeHttpGet("http://localhost:17584/api/sensors/temperature");
+            }
+
+            PaginatedListSensor<TemperatureSensor> parsedList = JsonConvert.DeserializeObject<PaginatedListSensor<TemperatureSensor>>(responseBody);
 
             /*
             List<TemperatureSensor> parsedList = new List<TemperatureSensor>();
             Random rnd = new Random();
             for (uint ctr = 1; ctr <= 50; ctr++)
             {
-                parsedList.Add(new TemperatureSensor(id: "1", macAddress: "1", dateTime: DateTime.Now.AddHours(ctr), type: "1",
+                parsedList.Add(new TemperatureSensor(macAddress: "1", dateTime: DateTime.Now.AddHours(ctr), type: "1",
                     celsius:  rnd.Next(250), fahrenheit: rnd.Next(250)));
-                parsedList.Add(new TemperatureSensor(id: "2", macAddress: "1", dateTime: DateTime.Now.AddHours(ctr), type: "1",
+                parsedList.Add(new TemperatureSensor(macAddress: "1", dateTime: DateTime.Now.AddHours(ctr), type: "1",
                     celsius: rnd.Next(250), fahrenheit: rnd.Next(250)));
-                parsedList.Add(new TemperatureSensor(id: "3", macAddress: "1", dateTime: DateTime.Now.AddHours(ctr), type: "1",
+                parsedList.Add(new TemperatureSensor(macAddress: "1", dateTime: DateTime.Now.AddHours(ctr), type: "1",
                     celsius: rnd.Next(250), fahrenheit: rnd.Next(250)));
-                parsedList.Add(new TemperatureSensor(id: "4", macAddress: "1", dateTime: DateTime.Now.AddHours(ctr), type: "1",
+                parsedList.Add(new TemperatureSensor(macAddress: "1", dateTime: DateTime.Now.AddHours(ctr), type: "1",
                     celsius: rnd.Next(250), fahrenheit: rnd.Next(250)));
-                parsedList.Add(new TemperatureSensor(id: "5", macAddress: "1", dateTime: DateTime.Now.AddHours(ctr), type: "1",
+                parsedList.Add(new TemperatureSensor(macAddress: "1", dateTime: DateTime.Now.AddHours(ctr), type: "1",
                     celsius: rnd.Next(250), fahrenheit: rnd.Next(250)));
-                parsedList.Add(new TemperatureSensor(id: "6", macAddress: "1", dateTime: DateTime.Now.AddHours(ctr), type: "1",
+                parsedList.Add(new TemperatureSensor(macAddress: "1", dateTime: DateTime.Now.AddHours(ctr), type: "1",
                     celsius: rnd.Next(250), fahrenheit: rnd.Next(250)));
-                parsedList.Add(new TemperatureSensor(id: "7", macAddress: "1", dateTime: DateTime.Now.AddHours(ctr), type: "1",
+                parsedList.Add(new TemperatureSensor(macAddress: "1", dateTime: DateTime.Now.AddHours(ctr), type: "1",
                     celsius: rnd.Next(250), fahrenheit: rnd.Next(250)));
-                parsedList.Add(new TemperatureSensor(id: "8", macAddress: "1", dateTime: DateTime.Now.AddHours(ctr), type: "1",
+                parsedList.Add(new TemperatureSensor(macAddress: "1", dateTime: DateTime.Now.AddHours(ctr), type: "1",
                     celsius: rnd.Next(250), fahrenheit: rnd.Next(250)));
-                parsedList.Add(new TemperatureSensor(id: "9", macAddress: "1", dateTime: DateTime.Now.AddHours(ctr), type: "1",
+                parsedList.Add(new TemperatureSensor(macAddress: "1", dateTime: DateTime.Now.AddHours(ctr), type: "1",
                     celsius: rnd.Next(250), fahrenheit: rnd.Next(250)));
-                parsedList.Add(new TemperatureSensor(id: "10", macAddress: "1", dateTime: DateTime.Now.AddHours(ctr), type: "1",
+                parsedList.Add(new TemperatureSensor(macAddress: "1", dateTime: DateTime.Now.AddHours(ctr), type: "1",
                     celsius: rnd.Next(250), fahrenheit: rnd.Next(250)));
-                parsedList.Add(new TemperatureSensor(id: "11", macAddress: "1", dateTime: DateTime.Now.AddHours(ctr), type: "1",
+                parsedList.Add(new TemperatureSensor(macAddress: "1", dateTime: DateTime.Now.AddHours(ctr), type: "1",
                     celsius: rnd.Next(250), fahrenheit: rnd.Next(250)));
             }
-            */
+            //*/
             
             return parsedList;
         }
 
-        public List<WindSensor> GetWindSensorData()
+        public PaginatedListSensor<WindSensor> GetWindSensorData(string address = null, 
+            int page = 0, int size = 0, string sort = null, string order = null)
         {
-            var responseBody = _makeHttpGet("http://localhost:17584/api/sensors/wind");
-            List<WindSensor> parsedList = JsonConvert.DeserializeObject<List<WindSensor>>(responseBody);
+            string responseBody = null;
+
+            if (address != null || page > 0 || size > 0 || sort != null || order != null)
+            {
+                responseBody = _makeHttpGet($"http://localhost:17584/api/sensors/wind{CreateQuery(address,page,size,sort,order)}");
+            }
+            else
+            {
+                responseBody = _makeHttpGet("http://localhost:17584/api/sensors/wind");
+            }
+
+            PaginatedListSensor<WindSensor> parsedList = JsonConvert.DeserializeObject<PaginatedListSensor<WindSensor>>(responseBody);
 
             /*
             List<WindSensor> parsedList = new List<WindSensor>
@@ -103,6 +149,36 @@ namespace applicationGui.API
             */
 
             return parsedList;
+        }
+
+        public List<string> GetAllSensors()
+        {
+            var responseBody = _makeHttpGet("http://localhost:17584/api/sensors");
+            List<string> parsedList = JsonConvert.DeserializeObject<List<string>>(responseBody);
+            
+            return parsedList;
+        }
+
+        private string CreateQuery(string address, int page, int size, string sort, string order)
+        {
+            StringBuilder queryBody = new StringBuilder();
+            
+            queryBody.Append('?');
+
+            if (address != null)
+                queryBody.Append($"address={address.Replace(":", "%3A")}&");
+            if (page > 0)
+                queryBody.Append($"page={page}&");
+            if (size > 0)
+                queryBody.Append($"size={size}&");
+            if (sort != null)
+                queryBody.Append($"sort={sort}&");
+            if (order != null)
+                queryBody.Append($"order={order}&");
+                
+            queryBody.Remove(queryBody.Length-1, 1);
+
+            return queryBody.ToString();
         }
         
         public string _makeHttpGet(string url)

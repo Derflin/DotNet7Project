@@ -23,7 +23,13 @@ namespace applicationGui.Controllers
             _apiService = apiService;
         }
 
-        public IActionResult Index() => View();
+        public IActionResult Index()
+        {
+            List<string> sensors = _apiService.GetAllSensors();
+            TempData.Add("MACLIST", sensors);
+
+            return View();
+        }
 
         public IActionResult Privacy() => View();
 
@@ -35,7 +41,7 @@ namespace applicationGui.Controllers
             ViewData.Add("NAME", "Temperature");
 
             // pobranie danych
-            List<TemperatureSensor> sensor = _apiService.GetTemperatureSensorData();
+            List<TemperatureSensor> sensor = _apiService.GetTemperatureSensorData().Items;
             
             // grupowanie danych na podstwie ID sensora
             List<List<TemperatureSensor>> splitedSensors = _splitSensors(sensor);
@@ -47,7 +53,7 @@ namespace applicationGui.Controllers
         {
             ViewData.Add("NAME", "Pressure");
 
-            var sensor = _apiService.GetPressureSensorData();
+            var sensor = _apiService.GetPressureSensorData().Items;
             List<List<PressureSensor>> splitedSensors = _splitSensors(sensor);
 
             return View("PressureTable", splitedSensors);
@@ -57,7 +63,7 @@ namespace applicationGui.Controllers
         {
             ViewData.Add("NAME", "Humidity");
 
-            var sensor = _apiService.GetHumiditySensorData();
+            var sensor = _apiService.GetHumiditySensorData().Items;
             List<List<HumiditySensor>> splitedSensors = _splitSensors(sensor);
 
             return View("HumidityTable", splitedSensors);
@@ -67,10 +73,66 @@ namespace applicationGui.Controllers
         {
             ViewData.Add("NAME", "Wind");
 
-            var sensor = _apiService.GetWindSensorData();
+            var sensor = _apiService.GetWindSensorData().Items;
             List<List<WindSensor>> splitedSensors = _splitSensors(sensor);
 
             return View("WindTable", splitedSensors);
+        }
+
+        public IActionResult SensorTable([FromQuery] string mac, [FromQuery] int page, [FromQuery] int size)
+        {
+            var sensorWind = _apiService.GetWindSensorData(mac, page, size);
+
+            if (sensorWind.TotalItems > 0)
+            {
+                if (sensorWind.Items.Count > 0)
+                {
+                    ViewData.Add("NAME", $"Wind Sensor Data - {mac}");
+                
+                    return View("WindSensorView", sensorWind);
+                }
+                return Redirect("/");
+            }
+            
+            var sensorHumidity = _apiService.GetHumiditySensorData(mac, page, size);
+
+            if (sensorHumidity.TotalItems != 0)
+            {
+                if (sensorHumidity.Items.Count > 0)
+                {
+                    ViewData.Add("NAME", $"Humidity Sensor Data - {mac}");
+                
+                    return View("HumiditySensorView", sensorHumidity);
+                }
+
+                return Redirect("/");
+            }
+            var sensorPressure = _apiService.GetPressureSensorData(mac, page, size);
+
+            if (sensorPressure.TotalItems > 0)
+            {
+                if (sensorPressure.Items.Count > 0)
+                {
+                    ViewData.Add("NAME", $"Pressure Sensor Data - {mac}");
+                
+                    return View("PressureSensorView", sensorPressure);
+                }
+                return Redirect("/");
+            }
+            var sensorTemperature = _apiService.GetTemperatureSensorData(mac, page, size);
+
+            if (sensorTemperature.TotalItems > 0)
+            {
+                if (sensorTemperature.Items.Count > 0)
+                {
+                    ViewData.Add("NAME", $"Temperature Sensor Data - {mac}");
+                
+                    return View("TemperatureSensorView", sensorTemperature);
+                }
+                return Redirect("/");
+            }
+            
+            return View("Error");
         }
 
         // metoda grupuje odczyty na podstawie id sensora
@@ -78,7 +140,7 @@ namespace applicationGui.Controllers
         {
             if (sensor == null || sensor.FirstOrDefault() == null) return new List<List<T>>();
 
-            List<IGrouping<string, T>> list = sensor.GroupBy(u => u.Id).ToList();
+            List<IGrouping<string, T>> list = sensor.GroupBy(u => u.MacAddress).ToList();
 
             List<List<T>> splitedSensors = new List<List<T>>();
 
@@ -96,5 +158,6 @@ namespace applicationGui.Controllers
         {
             return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
         }
+
     }
 }

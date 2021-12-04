@@ -14,7 +14,7 @@ namespace applicationGui.Models
             this.Type = "Humidity";
         }
 
-        public HumiditySensor(string id, string macAddress, DateTime dateTime, string type, double humidity) : base(id, macAddress, dateTime, type)
+        public HumiditySensor(string macAddress, DateTime dateTime, string type, double humidity) : base(macAddress, dateTime, type)
         {
             Humidity = humidity;
         }

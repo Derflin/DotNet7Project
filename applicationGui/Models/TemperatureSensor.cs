@@ -16,7 +16,7 @@ namespace applicationGui.Models
             this.Type = "Temperature";
         }
 
-        public TemperatureSensor(string id, string macAddress, DateTime dateTime, string type, double celsius, double fahrenheit) : base(id, macAddress, dateTime, type)
+        public TemperatureSensor(string macAddress, DateTime dateTime, string type, double celsius, double fahrenheit) : base(macAddress, dateTime, type)
         {
             Celsius = celsius;
             Fahrenheit = fahrenheit;

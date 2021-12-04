@@ -6,14 +6,41 @@
 
     <h1 class="display-4" style="font-weight: bold">Dashboard</h1>
     
-      <div class="Row">
-            <div id="chartPressure" class="Column" style="height: 400px; width: 30%;"></div>
-            <div id="chartHumidity" class="Column" style="height: 400px; width: 30%;"></div>
+    <div class="GridWrapper">
+        <div class="GridLeftPanel">
+            <h3 style="text-align: left">
+                List of sensors
+            </h3>
+            <table >
+                @{
+                    object macs = TempData["MACLIST"];
+
+                    @foreach (var mac in (List<string>) macs)
+                    {
+                        <tr>
+                            <td style="text-align: left">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="SensorTable"
+                                   asp-route-mac="@mac" asp-route-page="0" asp-route-size="5">@mac</a>
+                            </td>
+                        </tr>
+
+                    }
+                }
+            </table>
         </div>
-    <div class="Row">
-        <div id="chartTemperature" class="Column" style="height: 400px; width: 30%;"></div>
-        <div id="chartWindSpeed" class="Column" style="height: 400px; width: 30%;"></div>
+        <div class="GridRightPanel">
+            <div class="Row">
+                <div id="chartPressure" class="Column" style="height: 400px; width: 30%;"></div>
+                <div id="chartHumidity" class="Column" style="height: 400px; width: 30%;"></div>
+            </div>
+            <div class="Row">
+                <div id="chartTemperature" class="Column" style="height: 400px; width: 30%;"></div>
+                <div id="chartWindSpeed" class="Column" style="height: 400px; width: 30%;"></div>
+            </div>
+        </div>
+        
     </div>
+    
     
     <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
     <script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
@@ -25,11 +52,11 @@
     <script type="text/javascript" src="~/js/windSpeedChart.js"></script>
 
     <script type="text/javascript">
-                window.onload = function () {   
-                $.getJSON("Rest/json/pressure/avg", addData);
-                  $.getJSON("rest/json/humidity/avg", addData2);
-                  $.getJSON("rest/json/temperature/avg", addData3);
-                  $.getJSON("rest/json/wind/avg", addData4);
-                }
-            </script>
+        window.onload = function () {   
+            $.getJSON("Rest/json/pressure/avg", addData);
+            $.getJSON("rest/json/humidity/avg", addData2);
+            $.getJSON("rest/json/temperature/avg", addData3);
+            $.getJSON("rest/json/wind/avg", addData4);
+        }
+    </script>
 </div>

@@ -21,7 +21,7 @@ namespace applicationGui.Controllers
         // zwykła przeplotka wywołujaca metodę serwisu
         [FormatFilter]
         [HttpGet("{format}/pressure")]
-        public List<PressureSensor> getPressureData(string format) => _apiService.GetPressureSensorData();
+        public List<PressureSensor> getPressureData(string format) => _apiService.GetPressureSensorData().Items;
 
         // metoda pobierająca dane z serwisu 
         // nastepnie kwantyzuje z doksładnościa do sekundy
@@ -29,7 +29,7 @@ namespace applicationGui.Controllers
         [HttpGet("{format}/pressure/avg")]
         public List<PressureSensor> getPressureDataAvg()
         {
-            List<PressureSensor> avg = _apiService.GetPressureSensorData();
+            List<PressureSensor> avg = _apiService.GetPressureSensorData().Items;
 
             if (avg == null) return new List<PressureSensor>();
 
@@ -64,13 +64,13 @@ namespace applicationGui.Controllers
 
         [FormatFilter]
         [HttpGet("{format}/humidity")]
-        public List<HumiditySensor> getHumidityData(string format) => _apiService.GetHumiditySensorData();
+        public List<HumiditySensor> getHumidityData(string format) => _apiService.GetHumiditySensorData().Items;
 
 
         [HttpGet("{format}/humidity/avg")]
         public List<HumiditySensor> getHumidityDataAvg()
         {
-            List<HumiditySensor> avg = _apiService.GetHumiditySensorData();
+            List<HumiditySensor> avg = _apiService.GetHumiditySensorData().Items;
 
             if (avg == null) return new List<HumiditySensor>();
 
@@ -104,12 +104,12 @@ namespace applicationGui.Controllers
 
         [FormatFilter]
         [HttpGet("{format}/temperature")]
-        public List<TemperatureSensor> getTemperatureData(string format) => _apiService.GetTemperatureSensorData();
+        public List<TemperatureSensor> getTemperatureData(string format) => _apiService.GetTemperatureSensorData().Items;
         
         [HttpGet("{format}/temperature/avg")]
         public List<TemperatureSensor> getTemperatureDataAvg()
         {
-            List<TemperatureSensor> avg = _apiService.GetTemperatureSensorData();
+            List<TemperatureSensor> avg = _apiService.GetTemperatureSensorData().Items;
 
             if (avg == null) return new List<TemperatureSensor>();
 
@@ -146,13 +146,13 @@ namespace applicationGui.Controllers
 
         [FormatFilter]
         [HttpGet("{format}/wind")]
-        public List<WindSensor> getWindData(string format) => _apiService.GetWindSensorData();
+        public List<WindSensor> getWindData(string format) => _apiService.GetWindSensorData().Items;
 
 
         [HttpGet("{format}/wind/avg")]
         public List<WindSensor> getWindSpeedDataAvg()
         {
-            List<WindSensor> avg = _apiService.GetWindSensorData();
+            List<WindSensor> avg = _apiService.GetWindSensorData().Items;
 
             if (avg == null) return new List<WindSensor>();
 
@@ -183,6 +183,9 @@ namespace applicationGui.Controllers
             }
             return flattenList;
         }
+        
+        [HttpGet("{format}")]
+        public List<string> GetSensorsMac(string format) => _apiService.GetAllSensors();
 
         public static DateTime RoundUp(DateTime dt, TimeSpan d)
         {

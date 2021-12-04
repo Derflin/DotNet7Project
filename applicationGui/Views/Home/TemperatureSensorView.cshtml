@@ -1,0 +1,70 @@
+﻿@model  PaginatedListSensor<TemperatureSensor>  
+
+<meta name="viewport" content="width=device-width"/>
+<div style="overflow:scroll;" class="example">
+    <h1 class="display-4">@ViewData["NAME"]</h1>
+    
+    <div class="Row">
+        @if (Model.Items.Count > 0)
+        {
+            <h3>
+                Sensor data
+            </h3>
+            <table >
+                <tr style=" border-bottom:1px dotted gray">
+                    <th class="table-dark" style="text-align: center">Date</th>
+                    <th class="table-dark" style="text-align: center">Value </th>
+                </tr>
+
+                @for (int k = 0; k < Model.Items.Count; k++)
+                {
+                    var data = Model.Items[k];
+                        
+                    <tr style=" border-bottom:1px dashed gray">
+                        @if (k % 2 != 0)
+                        {
+                            <td class="table-dark" style=" text-align: center">
+                                @data.DateTime.ToString("yyyy-MM-dd HH:mm:ss.fff")
+                            </td>
+                            <td class="table-dark" style=" text-align: center">
+                                @data.Celsius
+                            </td>
+                        }
+                        else
+                        {
+                            <td style=" text-align: center">
+                                @data.DateTime.ToString("yyyy-MM-dd HH:mm:ss.fff")
+                            </td>
+                            <td style=" text-align: center">
+                                @data.Celsius
+                            </td>
+                        }   
+                    </tr>
+                }
+
+            </table>
+            
+            <table >
+                <tr>
+                    @if (Model.PageIndex > 0)
+                    {
+                        var prevPageIndex = Model.PageIndex - 1;
+                        <td>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="SensorTable"
+                               asp-route-mac="@Model.Items.FirstOrDefault().MacAddress" asp-route-page="@prevPageIndex" asp-route-size="@Model.PageSize">Previous</a>
+                        </td>
+                    }
+                    @if (Model.PageIndex < Model.TotalPages - 1)
+                    {
+                        var nextPageIndex = Model.PageIndex + 1;
+                        <td>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="SensorTable"
+                               asp-route-mac="@Model.Items.FirstOrDefault().MacAddress" asp-route-page="@nextPageIndex" asp-route-size="@Model.PageSize">Next</a>
+                        </td>
+                    }
+                </tr>
+            </table>
+        }
+        
+    </div>
+</div>

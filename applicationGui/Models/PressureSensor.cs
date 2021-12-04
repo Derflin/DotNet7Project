@@ -15,7 +15,7 @@ namespace applicationGui.Models
             this.Type = "Pressure";
         }
 
-        public PressureSensor(string id, string macAddress, DateTime dateTime, string type, int pressure) : base(id, macAddress, dateTime, type)
+        public PressureSensor(string macAddress, DateTime dateTime, string type, int pressure) : base(macAddress, dateTime, type)
         {
             Pressure = pressure;
         }

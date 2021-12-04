@@ -17,7 +17,7 @@
                     @foreach (var sensor in Model)
                     {
                         <th class="table-dark" style="text-align: center; border-bottom:3px dashed gray">Sensor: </th>
-                        <th class="table-dark" style="text-align: center;  border-right:3px dashed gray; border-bottom:3px dashed gray">@sensor.ElementAt(0).Id </th>
+                        <th class="table-dark" style="text-align: center;  border-right:3px dashed gray; border-bottom:3px dashed gray">@sensor.ElementAt(0).MacAddress </th>
                     }
                 </tr>
                 <tr style=" border-bottom:1px dotted gray">
@@ -33,23 +33,41 @@
                     <tr style=" border-bottom:1px dashed gray">
                         @for (int k = 0; k < Model.ToList().Count; k++)
                         {
-                            @if (k % 2 != 0)
+                            var data = Model.ToList().ElementAtOrDefault(k).ToList().ElementAtOrDefault(i);
+                            
+                            @if (data != null)
                             {
-                                <td class="table-dark" style=" text-align: center">
-                                    @Model.ToList().ElementAtOrDefault(k).ToList().ElementAtOrDefault(i).DateTime
-                                </td>
-                                <td class="table-dark" style="padding: 20px; text-align: center; border-right:3px dashed gray">
-                                    @Model.ToList().ElementAtOrDefault(k).ToList().ElementAtOrDefault(i).Pressure
-                                </td>
+                                @if (k % 2 != 0)
+                                {
+                                    <td class="table-dark" style=" text-align: center">
+                                        @data.DateTime.ToString("yyyy-MM-dd HH:mm:ss.fff")
+                                    </td>
+                                    <td class="table-dark" style="padding: 20px; text-align: center; border-right:3px dashed gray">
+                                        @data.Pressure
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td style=" text-align: center">
+                                        @data.DateTime.ToString("yyyy-MM-dd HH:mm:ss.fff")
+                                    </td>
+                                    <td style="padding: 20px; text-align: center; border-right:3px dotted gray">
+                                        @data.Pressure
+                                    </td>
+                                }
                             }
                             else
                             {
-                                <td style=" text-align: center">
-                                    @Model.ToList().ElementAtOrDefault(k).ToList().ElementAtOrDefault(i).DateTime
-                                </td>
-                                <td style="padding: 20px; text-align: center; border-right:3px dotted gray">
-                                    @Model.ToList().ElementAtOrDefault(k).ToList().ElementAtOrDefault(i).Pressure
-                                </td>
+                                @if (k % 2 != 0)
+                                {
+                                    <td class="table-dark" style=" text-align: center"/>
+                                    <td class="table-dark" style="padding: 20px; text-align: center; border-right:3px dashed gray"/>
+                                }
+                                else
+                                {
+                                    <td style=" text-align: center"/>
+                                    <td style="padding: 20px; text-align: center; border-right:3px dotted gray"/>
+                                }
                             }
                         }
                     </tr>
