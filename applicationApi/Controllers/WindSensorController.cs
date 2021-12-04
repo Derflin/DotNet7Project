@@ -30,10 +30,12 @@ namespace applicationApi.Controllers
         
         [FormatFilter]
         [HttpGet("{format}")]
-        public ActionResult<List<WindSensor>> GetFilter(string format, string address, string sort, string order)
+        public ActionResult<List<WindSensor>> GetFilter(string format, string address, int page, int size, string sort, string order)
         {
             List<WindSensor> items = _windSensorService.Get(address, sort, order);
-            return items;
+            PaginatedListSensor<WindSensor> paginatedList =
+                new PaginatedListSensor<WindSensor>(items, items.Count, page, size);
+            return paginatedList.Items;
         }
 
         /*

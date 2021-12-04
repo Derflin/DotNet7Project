@@ -30,10 +30,12 @@ namespace applicationApi.Controllers
         
         [FormatFilter]
         [HttpGet("{format}")]
-        public ActionResult<List<PressureSensor>> GetFilter(string format, string address, string sort, string order)
+        public ActionResult<List<PressureSensor>> GetFilter(string format, string address, int page, int size, string sort, string order)
         {
             List<PressureSensor> items = _pressureSensorService.Get(address, sort, order);
-            return items;
+            PaginatedListSensor<PressureSensor> paginatedList =
+                new PaginatedListSensor<PressureSensor>(items, items.Count, page, size);
+            return paginatedList.Items;
         }
 
         /*
