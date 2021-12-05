@@ -194,9 +194,9 @@ namespace applicationGui.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult SetFilter(string mac, string minDate, string maxDate, int page, int size)
+        public IActionResult SetFilter(string mac, string minDate, string maxDate, int page, int size, string sort, string order)
         {
-            return RedirectToAction("SensorTable", new {mac, minDate, maxDate, page, size});
+            return RedirectToAction("SensorTable", new {mac, minDate, maxDate, page, size, sort, order});
         }
         
         // metoda grupuje odczyty na podstawie id sensora

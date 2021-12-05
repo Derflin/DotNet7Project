@@ -26,12 +26,26 @@
                 <input type="hidden" name="mac" value="@ViewData["MAC"]" />
                 <input type="hidden" name="page" value="@Model.PageIndex" />
                 <input type="hidden" name="size" value="@Model.PageSize" />
+                <input type="hidden" name="sort" value="@ViewData["SORT"]" />
+                <input type="hidden" name="order" value="@ViewData["ORDER"]" />
                 
-                <input name="minDate" type="date"/>
-                <input name="maxDate" type="date"/>
+                <input name="minDate" type="date" value="@ViewData["MINDATE"]"/>
+                <input name="maxDate" type="date" value="@ViewData["MAXDATE"]"/>
 
                 <input type="submit" value="Add filter"/>
             </form>
+            
+            @if (ViewData["MINDATE"] != null || ViewData["MAXDATE"] != null)
+            {
+                @Html.ActionLink("Reset filter", "SetFilter", new
+                {
+                    mac = ViewData["MAC"],
+                    page = Model.PageIndex,
+                    size = Model.PageSize,
+                    sort = ViewData["SORT"],
+                    order = ViewData["ORDER"]
+                })
+            }
             <table >
                 <tr style=" border-bottom:1px dotted gray">
                     <th class="table-dark" style="text-align: center">
