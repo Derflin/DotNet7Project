@@ -88,7 +88,8 @@ namespace applicationGui.Controllers
         }
 
         public IActionResult SensorTable([FromQuery] string mac, [FromQuery] string minDate, [FromQuery] string maxDate,
-            [FromQuery] int page, [FromQuery] int size, [FromQuery] string sort, [FromQuery] string order)
+            [FromQuery] int page, [FromQuery] int size, [FromQuery] string sort, [FromQuery] string order, 
+            [FromQuery] string sensor)
         {
             ViewData["MINDATE"] = minDate;
             ViewData["MAXDATE"] = maxDate;
@@ -97,9 +98,9 @@ namespace applicationGui.Controllers
             
             var sensorWind = _apiService.GetWindSensorData(mac, minDate, maxDate, page, size, sort, order);
 
-            if (sensorWind.TotalItems > 0)
+            if (sensorWind.TotalItems > 0 || sensor == "wind")
             {
-                if (sensorWind.Items.Count > 0)
+                if (sensorWind.Items.Count > 0 || sensor == "wind")
                 {
                     ViewData.Add("NAME", $"Wind Sensor Data - {mac}");
                     ViewData.Add("MAC", mac);
@@ -111,9 +112,9 @@ namespace applicationGui.Controllers
             
             var sensorHumidity = _apiService.GetHumiditySensorData(mac, minDate, maxDate, page, size, sort, order);
 
-            if (sensorHumidity.TotalItems != 0)
+            if (sensorHumidity.TotalItems != 0 || sensor == "humidity")
             {
-                if (sensorHumidity.Items.Count > 0)
+                if (sensorHumidity.Items.Count > 0 || sensor == "humidity")
                 {
                     ViewData.Add("NAME", $"Humidity Sensor Data - {mac}");
                     ViewData.Add("MAC", mac);
@@ -125,9 +126,9 @@ namespace applicationGui.Controllers
             }
             var sensorPressure = _apiService.GetPressureSensorData(mac, minDate, maxDate, page, size, sort, order);
 
-            if (sensorPressure.TotalItems > 0)
+            if (sensorPressure.TotalItems > 0 || sensor == "pressure")
             {
-                if (sensorPressure.Items.Count > 0)
+                if (sensorPressure.Items.Count > 0 || sensor == "pressure")
                 {
                     ViewData.Add("NAME", $"Pressure Sensor Data - {mac}");
                     ViewData.Add("MAC", mac);
@@ -138,9 +139,9 @@ namespace applicationGui.Controllers
             }
             var sensorTemperature = _apiService.GetTemperatureSensorData(mac, minDate, maxDate, page, size, sort, order);
 
-            if (sensorTemperature.TotalItems > 0)
+            if (sensorTemperature.TotalItems > 0 || sensor == "temperature")
             {
-                if (sensorTemperature.Items.Count > 0)
+                if (sensorTemperature.Items.Count > 0 || sensor == "temperature")
                 {
                     ViewData.Add("NAME", $"Temperature Sensor Data - {mac}");
                     ViewData.Add("MAC", mac);
@@ -153,7 +154,7 @@ namespace applicationGui.Controllers
             return View("Error");
         }
 
-        public IActionResult SortTable(string mac, string minDate, string maxDate, int page, int size, string sort, 
+        public IActionResult SortTable(string mac, string minDate, string maxDate, int page, int size, string sort, string sensor, 
             string oldSort, string oldOrder, string actionName)
         {
             string order = null;
@@ -180,7 +181,7 @@ namespace applicationGui.Controllers
             switch (actionName)
             {
                 case "SensorTable":
-                    return RedirectToAction("SensorTable", new {mac, minDate, maxDate, page, size, sort, order});
+                    return RedirectToAction("SensorTable", new {mac, minDate, maxDate, page, size, sort, order, sensor});
                 case "WindTable":
                     return RedirectToAction("WindTable", new {sort, order});
                 case "TemperatureTable":
@@ -194,9 +195,9 @@ namespace applicationGui.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult SetFilter(string mac, string minDate, string maxDate, int page, int size, string sort, string order)
+        public IActionResult SetFilter(string mac, string minDate, string maxDate, int page, int size, string sort, string order, string sensor)
         {
-            return RedirectToAction("SensorTable", new {mac, minDate, maxDate, page, size, sort, order});
+            return RedirectToAction("SensorTable", new {mac, minDate, maxDate, page, size, sort, order, sensor});
         }
         
         // metoda grupuje odczyty na podstawie id sensora

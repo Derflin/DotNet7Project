@@ -28,6 +28,7 @@
                 <input type="hidden" name="size" value="@Model.PageSize" />
                 <input type="hidden" name="sort" value="@ViewData["SORT"]" />
                 <input type="hidden" name="order" value="@ViewData["ORDER"]" />
+                <input type="hidden" name="sensor" value="pressure" />
                 
                 <input name="minDate" type="date" value="@ViewData["MINDATE"]"/>
                 <input name="maxDate" type="date" value="@ViewData["MAXDATE"]"/>
@@ -43,7 +44,8 @@
                     page = Model.PageIndex,
                     size = Model.PageSize,
                     sort = ViewData["SORT"],
-                    order = ViewData["ORDER"]
+                    order = ViewData["ORDER"],
+                    sensor = "pressure"
                 })
             }
             <table >
@@ -57,6 +59,7 @@
                             page = Model.PageIndex,
                             size = Model.PageSize,
                             sort = "date",
+                            sensor = "pressure",
                             oldSort = ViewData["SORT"],
                             oldOrder = ViewData["ORDER"],
                             actionName = "SensorTable"
@@ -71,6 +74,7 @@
                             page = Model.PageIndex,
                             size = Model.PageSize,
                             sort = "value",
+                            sensor = "pressure",
                             oldSort = ViewData["SORT"],
                             oldOrder = ViewData["ORDER"],
                             actionName = "SensorTable"
@@ -120,6 +124,7 @@
                                 page = prevPageIndex,
                                 size = Model.PageSize,
                                 sort = "value",
+                                sensor = "pressure",
                                 oldSort = ViewData["SORT"],
                                 oldOrder = ViewData["ORDER"]
                             })
@@ -137,6 +142,7 @@
                                 page = nextPageIndex,
                                 size = Model.PageSize,
                                 sort = "value",
+                                sensor = "pressure",
                                 oldSort = ViewData["SORT"],
                                 oldOrder = ViewData["ORDER"]
                             })
