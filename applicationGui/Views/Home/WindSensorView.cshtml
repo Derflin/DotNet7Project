@@ -28,7 +28,9 @@
             <input type="hidden" name="order" value="@ViewData["ORDER"]" />
             <input type="hidden" name="sensor" value="wind" />
             
+            <span> From: </span>
             <input name="minDate" type="date" value="@ViewData["MINDATE"]"/>
+            <span> To: </span>
             <input name="maxDate" type="date" value="@ViewData["MAXDATE"]"/>
 
             <input type="submit" value="Add filter"/>
