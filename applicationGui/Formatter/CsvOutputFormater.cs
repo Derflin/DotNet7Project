@@ -56,7 +56,15 @@ namespace applicationGui.Formatter
                 {
                     if (value.Value != null)
                     {
-                        var tmpValue = value.Value.ToString();
+                        string tmpValue = "";
+                        if (value.Value is DateTime)
+                        {
+                            tmpValue = value.Value.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss.fffK");
+                        }
+                        else
+                        {
+                            tmpValue = value.Value.ToString();
+                        }
 
                         if (tmpValue.Contains(","))
                             tmpValue = string.Concat("\"", tmpValue, "\"");
