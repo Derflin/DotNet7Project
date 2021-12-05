@@ -31,8 +31,6 @@ namespace applicationGui.Controllers
             return View();
         }
 
-        public IActionResult Privacy() => View();
-
         public IActionResult License() => View();
 
         // strona z tablą z odczytami sensorów temperatury
