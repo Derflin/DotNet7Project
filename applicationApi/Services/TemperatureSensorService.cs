@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using applicationApi.Models;
 using MongoDB.Bson;
@@ -17,18 +18,16 @@ namespace applicationApi.Services
             _temperatureSensors = database.GetCollection<TemperatureSensor>(settings.TemperatureSensorsCollectionName);
         }
 
-        public List<TemperatureSensor> Get(string filterMacAddress = null, string sort = null, string order = null)
+        public List<TemperatureSensor> Get(string filterMacAddress = null, string minDateText = null, string maxDateText = null, string sort = null, string order = null)
         {
+            DateTime testDate;
+            DateTime? minDate = DateTime.TryParse(minDateText, out testDate) ? testDate : null;
+            DateTime? maxDate = DateTime.TryParse(maxDateText, out testDate) ? testDate : null;
+            
             var findQuery = _temperatureSensors.Find(temperature => 
-                filterMacAddress == null || temperature.MacAddress == filterMacAddress);
-            /*if (filterMacAddress == null)
-            {
-                findQuery = _temperatureSensors.Find(temperature => true);
-            }
-            else
-            {
-                findQuery = _temperatureSensors.Find(temperatureSensor => temperatureSensor.MacAddress == filterMacAddress);
-            }*/
+                (filterMacAddress == null || temperature.MacAddress == filterMacAddress) &&
+                (minDate == null || temperature.DateTime >= minDate) &&
+                (maxDate == null || temperature.DateTime <= maxDate));
             findQuery = SortQuery(findQuery, sort, order);
             return findQuery.ToList();
         }

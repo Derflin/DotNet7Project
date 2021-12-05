@@ -20,9 +20,9 @@ namespace applicationApi.Controllers
         }
         
         [HttpGet]
-        public ActionResult<PaginatedListSensor<WindSensor>> Get(string address, int page, int size, string sort, string order)
+        public ActionResult<PaginatedListSensor<WindSensor>> Get(string address, string minDate, string maxDate, int page, int size, string sort, string order)
         {
-            List<WindSensor> items = _windSensorService.Get(address, sort, order);
+            List<WindSensor> items = _windSensorService.Get(address, minDate, maxDate, sort, order);
             PaginatedListSensor<WindSensor> paginatedList =
                 new PaginatedListSensor<WindSensor>(items, items.Count, page, size);
             return paginatedList;
@@ -30,9 +30,9 @@ namespace applicationApi.Controllers
         
         [FormatFilter]
         [HttpGet("{format}")]
-        public ActionResult<List<WindSensor>> GetFilter(string format, string address, int page, int size, string sort, string order)
+        public ActionResult<List<WindSensor>> GetFilter(string format, string address, string minDate, string maxDate, int page, int size, string sort, string order)
         {
-            List<WindSensor> items = _windSensorService.Get(address, sort, order);
+            List<WindSensor> items = _windSensorService.Get(address, minDate, maxDate, sort, order);
             PaginatedListSensor<WindSensor> paginatedList =
                 new PaginatedListSensor<WindSensor>(items, items.Count, page, size);
             return paginatedList.Items;

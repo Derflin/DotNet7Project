@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using applicationApi.Models;
 using MongoDB.Bson;
@@ -17,18 +18,16 @@ namespace applicationApi.Services
             _windSensors = database.GetCollection<WindSensor>(settings.WindSensorsCollectionName);
         }
 
-        public List<WindSensor> Get(string filterMacAddress = null, string sort = null, string order = null)
+        public List<WindSensor> Get(string filterMacAddress = null, string minDateText = null, string maxDateText = null, string sort = null, string order = null)
         {
+            DateTime testDate;
+            DateTime? minDate = DateTime.TryParse(minDateText, out testDate) ? testDate : null;
+            DateTime? maxDate = DateTime.TryParse(maxDateText, out testDate) ? testDate : null;
+            
             var findQuery = _windSensors.Find(wind => 
-                filterMacAddress == null || wind.MacAddress == filterMacAddress);
-            /*if (filterMacAddress == null)
-            {
-                findQuery = _windSensors.Find(wind => true);
-            }
-            else
-            {
-                findQuery = _windSensors.Find(windSensor => windSensor.MacAddress == filterMacAddress);
-            }*/
+                (filterMacAddress == null || wind.MacAddress == filterMacAddress) &&
+                (minDate == null || wind.DateTime >= minDate) &&
+                (maxDate == null || wind.DateTime <= maxDate));
             findQuery = SortQuery(findQuery, sort, order);
             return findQuery.ToList();
         }

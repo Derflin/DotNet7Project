@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using applicationApi.Models;
 using applicationApi.Services;
@@ -20,9 +21,9 @@ namespace applicationApi.Controllers
         }
         
         [HttpGet]
-        public ActionResult<PaginatedListSensor<HumiditySensor>> Get(string address, int page, int size, string sort, string order)
+        public ActionResult<PaginatedListSensor<HumiditySensor>> Get(string address, string minDate, string maxDate, int page, int size, string sort, string order)
         {
-            List<HumiditySensor> items = _humiditySensorService.Get(address, sort, order);
+            List<HumiditySensor> items = _humiditySensorService.Get(address, minDate, maxDate, sort, order);
             PaginatedListSensor<HumiditySensor> paginatedList =
                 new PaginatedListSensor<HumiditySensor>(items, items.Count, page, size);
             return paginatedList;
@@ -30,9 +31,9 @@ namespace applicationApi.Controllers
         
         [FormatFilter]
         [HttpGet("{format}")]
-        public ActionResult<List<HumiditySensor>> GetFilter(string format, string address, int page, int size, string sort, string order)
+        public ActionResult<List<HumiditySensor>> GetFilter(string format, string address, string minDate, string maxDate, int page, int size, string sort, string order)
         {
-            List<HumiditySensor> items = _humiditySensorService.Get(address, sort, order);
+            List<HumiditySensor> items = _humiditySensorService.Get(address, minDate, maxDate, sort, order);
             PaginatedListSensor<HumiditySensor> paginatedList =
                 new PaginatedListSensor<HumiditySensor>(items, items.Count, page, size);
             return paginatedList.Items;

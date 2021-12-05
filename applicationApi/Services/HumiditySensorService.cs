@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using applicationApi.Models;
 using MongoDB.Bson;
@@ -17,18 +18,16 @@ namespace applicationApi.Services
             _humiditySensors = database.GetCollection<HumiditySensor>(settings.HumiditySensorsCollectionName);
         }
 
-        public List<HumiditySensor> Get(string filterMacAddress = null, string sort = null, string order = null)
+        public List<HumiditySensor> Get(string filterMacAddress = null, string minDateText = null, string maxDateText = null, string sort = null, string order = null)
         {
+            DateTime testDate;
+            DateTime? minDate = DateTime.TryParse(minDateText, out testDate) ? testDate : null;
+            DateTime? maxDate = DateTime.TryParse(maxDateText, out testDate) ? testDate : null;
+            
             var findQuery = _humiditySensors.Find(humidity => 
-                filterMacAddress == null || humidity.MacAddress == filterMacAddress);
-            /*if (filterMacAddress == null)
-            {
-                findQuery = _humiditySensors.Find(humidity => true);
-            }
-            else
-            {
-                findQuery = _humiditySensors.Find(humiditySensor => humiditySensor.MacAddress == filterMacAddress);
-            }*/
+                (filterMacAddress == null || humidity.MacAddress == filterMacAddress) &&
+                (minDate == null || humidity.DateTime >= minDate) &&
+                (maxDate == null || humidity.DateTime <= maxDate));
             findQuery = SortQuery(findQuery, sort, order);
             return findQuery.ToList();
         }

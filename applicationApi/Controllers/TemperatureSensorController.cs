@@ -20,9 +20,9 @@ namespace applicationApi.Controllers
         }
         
         [HttpGet]
-        public ActionResult<PaginatedListSensor<TemperatureSensor>> Get(string address, int page, int size, string sort, string order)
+        public ActionResult<PaginatedListSensor<TemperatureSensor>> Get(string address, string minDate, string maxDate, int page, int size, string sort, string order)
         {
-            List<TemperatureSensor> items = _temperatureSensorService.Get(address, sort, order);
+            List<TemperatureSensor> items = _temperatureSensorService.Get(address, minDate, maxDate, sort, order);
             PaginatedListSensor<TemperatureSensor> paginatedList =
                 new PaginatedListSensor<TemperatureSensor>(items, items.Count, page, size);
             return paginatedList;
@@ -30,9 +30,9 @@ namespace applicationApi.Controllers
         
         [FormatFilter]
         [HttpGet("{format}")]
-        public ActionResult<List<TemperatureSensor>> GetFilter(string format, string address, int page, int size, string sort, string order)
+        public ActionResult<List<TemperatureSensor>> GetFilter(string format, string address, string minDate, string maxDate, int page, int size, string sort, string order)
         {
-            List<TemperatureSensor> items = _temperatureSensorService.Get(address, sort, order);
+            List<TemperatureSensor> items = _temperatureSensorService.Get(address, minDate, maxDate, sort, order);
             PaginatedListSensor<TemperatureSensor> paginatedList =
                 new PaginatedListSensor<TemperatureSensor>(items, items.Count, page, size);
             return paginatedList.Items;

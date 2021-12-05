@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using applicationApi.Models;
 using MongoDB.Bson;
@@ -17,18 +18,16 @@ namespace applicationApi.Services
             _pressureSensors = database.GetCollection<PressureSensor>(settings.PressureSensorsCollectionName);
         }
 
-        public List<PressureSensor> Get(string filterMacAddress = null, string sort = null, string order = null)
+        public List<PressureSensor> Get(string filterMacAddress = null, string minDateText = null, string maxDateText = null, string sort = null, string order = null)
         {
+            DateTime testDate;
+            DateTime? minDate = DateTime.TryParse(minDateText, out testDate) ? testDate : null;
+            DateTime? maxDate = DateTime.TryParse(maxDateText, out testDate) ? testDate : null;
+            
             var findQuery = _pressureSensors.Find(pressure => 
-                filterMacAddress == null || pressure.MacAddress == filterMacAddress);
-            /*if (filterMacAddress == null)
-            {
-                findQuery = _pressureSensors.Find(pressure => true);
-            }
-            else
-            {
-                findQuery = _pressureSensors.Find(pressureSensor => pressureSensor.MacAddress == filterMacAddress);
-            }*/
+                (filterMacAddress == null || pressure.MacAddress == filterMacAddress) &&
+                (minDate == null || pressure.DateTime >= minDate) &&
+                (maxDate == null || pressure.DateTime <= maxDate));
             findQuery = SortQuery(findQuery, sort, order);
             return findQuery.ToList();
         }
