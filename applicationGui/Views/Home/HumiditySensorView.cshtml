@@ -16,43 +16,47 @@
     </div>
     
     <div class="Row">
-        @if (Model.Items.Count > 0)
+        <h3>
+            Sensor data
+        </h3>
+        
+        
+        <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="SetFilter">
+            
+            <input type="hidden" name="mac" value="@ViewData["MAC"]" />
+            <input type="hidden" name="page" value="@Model.PageIndex" />
+            <input type="hidden" name="size" value="@Model.PageSize" />
+            <input type="hidden" name="sort" value="@ViewData["SORT"]" />
+            <input type="hidden" name="order" value="@ViewData["ORDER"]" />
+            <input type="hidden" name="sensor" value="humidity" />
+            <input type="hidden" name="actionName" value="SensorTable" />
+            
+            <span> From: </span>
+            <input name="minDate" type="date" value="@ViewData["MINDATE"]"/>
+            <span> To: </span>
+            <input name="maxDate" type="date" value="@ViewData["MAXDATE"]"/>
+
+            <input type="submit" value="Add filter"/>
+        </form>
+
+        @if (ViewData["MINDATE"] != null || ViewData["MAXDATE"] != null)
         {
-            <h3>
-                Sensor data
-            </h3>
-            
-            
-            <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="SetFilter">
-                
-                <input type="hidden" name="mac" value="@ViewData["MAC"]" />
-                <input type="hidden" name="page" value="@Model.PageIndex" />
-                <input type="hidden" name="size" value="@Model.PageSize" />
-                <input type="hidden" name="sort" value="@ViewData["SORT"]" />
-                <input type="hidden" name="order" value="@ViewData["ORDER"]" />
-                <input type="hidden" name="sensor" value="humidity" />
-                
-                <span> From: </span>
-                <input name="minDate" type="date" value="@ViewData["MINDATE"]"/>
-                <span> To: </span>
-                <input name="maxDate" type="date" value="@ViewData["MAXDATE"]"/>
-
-                <input type="submit" value="Add filter"/>
-            </form>
-
-            @if (ViewData["MINDATE"] != null || ViewData["MAXDATE"] != null)
+            @Html.ActionLink("Reset filter", "SetFilter", new
             {
-                @Html.ActionLink("Reset filter", "SetFilter", new
-                {
-                    mac = ViewData["MAC"],
-                    page = Model.PageIndex,
-                    size = Model.PageSize,
-                    sort = ViewData["SORT"],
-                    order = ViewData["ORDER"],
-                    sensor = "humidity"
-                })
-            }
-            
+                mac = ViewData["MAC"],
+                page = Model.PageIndex,
+                size = Model.PageSize,
+                sort = ViewData["SORT"],
+                order = ViewData["ORDER"],
+                sensor = "humidity",
+                actionName = "SensorTable"
+            })
+        }
+        
+        <br/><br/>
+        
+        @if (Model.Items.Any())
+        {
             <table >
                 <tr style=" border-bottom:1px dotted gray">
                     <th class="table-dark" style="text-align: center">
@@ -63,28 +67,28 @@
                             maxDate = ViewData["MAXDATE"],
                             page = Model.PageIndex,
                             size = Model.PageSize,
-                            sort = "date", 
+                            sort = "date",
                             sensor = "humidity",
-                            oldSort = ViewData["SORT"], 
+                            oldSort = ViewData["SORT"],
                             oldOrder = ViewData["ORDER"],
                             actionName = "SensorTable"
                         })
-                        
+
                     </th>
                     <th class="table-dark" style="text-align: center">
                         @Html.ActionLink("Value", "SortTable", new
-                           {
-                               mac = ViewData["MAC"],
-                               minDate = ViewData["MINDATE"],
-                               maxDate = ViewData["MAXDATE"],
-                               page = Model.PageIndex,
-                               size = Model.PageSize,
-                               sort = "value", 
-                               sensor = "humidity",
-                               oldSort = ViewData["SORT"], 
-                               oldOrder = ViewData["ORDER"],
-                               actionName = "SensorTable"
-                           })
+                        {
+                            mac = ViewData["MAC"],
+                            minDate = ViewData["MINDATE"],
+                            maxDate = ViewData["MAXDATE"],
+                            page = Model.PageIndex,
+                            size = Model.PageSize,
+                            sort = "value",
+                            sensor = "humidity",
+                            oldSort = ViewData["SORT"],
+                            oldOrder = ViewData["ORDER"],
+                            actionName = "SensorTable"
+                        })
                     </th>
                 </tr>
 
@@ -109,11 +113,11 @@
                             <td style=" text-align: center">
                                 @data.Humidity
                             </td>
-                        }   
+                        }
                     </tr>
                 }
             </table>
-            
+
             <table >
                 <tr>
                     @if (Model.PageIndex > 0)
@@ -154,6 +158,10 @@
                     }
                 </tr>
             </table>
+        }
+        else
+        {
+            <p><b> No data available </b></p>
         }
     </div>
     

@@ -34,14 +34,16 @@ namespace applicationGui.Controllers
         public IActionResult License() => View();
 
         // strona z tablą z odczytami sensorów temperatury
-        public IActionResult TemperatureTable([FromQuery] string sort, [FromQuery] string order)
+        public IActionResult TemperatureTable([FromQuery] string minDate, [FromQuery] string maxDate, [FromQuery] string sort, [FromQuery] string order)
         {
             ViewData.Add("NAME", "Temperature");
+            ViewData["MINDATE"] = minDate;
+            ViewData["MAXDATE"] = maxDate;
             ViewData["SORT"] = sort;
             ViewData["ORDER"] = order;
 
             // pobranie danych
-            List<TemperatureSensor> sensor = _apiService.GetTemperatureSensorData(sort: sort, order: order).Items;
+            List<TemperatureSensor> sensor = _apiService.GetTemperatureSensorData(minDate: minDate, maxDate: maxDate, sort: sort, order: order).Items;
             
             // grupowanie danych na podstwie ID sensora
             List<List<TemperatureSensor>> splitedSensors = _splitSensors(sensor);
@@ -49,37 +51,43 @@ namespace applicationGui.Controllers
             return View("TemperatureTable", splitedSensors);
         }
 
-        public IActionResult PressureTable([FromQuery] string sort, [FromQuery] string order)
+        public IActionResult PressureTable([FromQuery] string minDate, [FromQuery] string maxDate, [FromQuery] string sort, [FromQuery] string order)
         {
             ViewData.Add("NAME", "Pressure");
+            ViewData["MINDATE"] = minDate;
+            ViewData["MAXDATE"] = maxDate;
             ViewData["SORT"] = sort;
             ViewData["ORDER"] = order;
 
-            var sensor = _apiService.GetPressureSensorData(sort: sort, order: order).Items;
+            var sensor = _apiService.GetPressureSensorData(minDate: minDate, maxDate: maxDate, sort: sort, order: order).Items;
             List<List<PressureSensor>> splitedSensors = _splitSensors(sensor);
 
             return View("PressureTable", splitedSensors);
         }
 
-        public IActionResult HumidityTable([FromQuery] string sort, [FromQuery] string order)
+        public IActionResult HumidityTable([FromQuery] string minDate, [FromQuery] string maxDate, [FromQuery] string sort, [FromQuery] string order)
         {
             ViewData.Add("NAME", "Humidity");
+            ViewData["MINDATE"] = minDate;
+            ViewData["MAXDATE"] = maxDate;
             ViewData["SORT"] = sort;
             ViewData["ORDER"] = order;
 
-            var sensor = _apiService.GetHumiditySensorData(sort: sort, order: order).Items;
+            var sensor = _apiService.GetHumiditySensorData(minDate: minDate, maxDate: maxDate, sort: sort, order: order).Items;
             List<List<HumiditySensor>> splitedSensors = _splitSensors(sensor);
 
             return View("HumidityTable", splitedSensors);
         }
 
-        public IActionResult WindTable([FromQuery] string sort, [FromQuery] string order)
+        public IActionResult WindTable([FromQuery] string minDate, [FromQuery] string maxDate, [FromQuery] string sort, [FromQuery] string order)
         {
             ViewData.Add("NAME", "Wind");
+            ViewData["MINDATE"] = minDate;
+            ViewData["MAXDATE"] = maxDate;
             ViewData["SORT"] = sort;
             ViewData["ORDER"] = order;
 
-            var sensor = _apiService.GetWindSensorData(sort: sort, order: order).Items;
+            var sensor = _apiService.GetWindSensorData(minDate: minDate, maxDate: maxDate, sort: sort, order: order).Items;
             List<List<WindSensor>> splitedSensors = _splitSensors(sensor);
 
             return View("WindTable", splitedSensors);
@@ -181,21 +189,35 @@ namespace applicationGui.Controllers
                 case "SensorTable":
                     return RedirectToAction("SensorTable", new {mac, minDate, maxDate, page, size, sort, order, sensor});
                 case "WindTable":
-                    return RedirectToAction("WindTable", new {sort, order});
+                    return RedirectToAction("WindTable", new {minDate, maxDate, sort, order});
                 case "TemperatureTable":
-                    return RedirectToAction("TemperatureTable", new {sort, order});
+                    return RedirectToAction("TemperatureTable", new {minDate, maxDate, sort, order});
                 case "PressureTable":
-                    return RedirectToAction("PressureTable", new {sort, order});
+                    return RedirectToAction("PressureTable", new {minDate, maxDate, sort, order});
                 case "HumidityTable":
-                    return RedirectToAction("HumidityTable", new {sort, order});
+                    return RedirectToAction("HumidityTable", new {minDate, maxDate, sort, order});
             }
             
             return RedirectToAction("Index");
         }
 
-        public IActionResult SetFilter(string mac, string minDate, string maxDate, int page, int size, string sort, string order, string sensor)
+        public IActionResult SetFilter(string mac, string minDate, string maxDate, int page, int size, string sort, 
+            string order, string sensor, string actionName)
         {
-            return RedirectToAction("SensorTable", new {mac, minDate, maxDate, page, size, sort, order, sensor});
+            switch (actionName)
+            {
+                case "SensorTable":
+                    return RedirectToAction("SensorTable", new {mac, minDate, maxDate, page, size, sort, order, sensor});
+                case "WindTable":
+                    return RedirectToAction("WindTable", new {minDate, maxDate, sort, order});
+                case "TemperatureTable":
+                    return RedirectToAction("TemperatureTable", new {minDate, maxDate, sort, order});
+                case "PressureTable":
+                    return RedirectToAction("PressureTable", new {minDate, maxDate, sort, order});
+                case "HumidityTable":
+                    return RedirectToAction("HumidityTable", new {minDate, maxDate, sort, order});
+            }
+            return RedirectToAction("Index");
         }
         
         // metoda grupuje odczyty na podstawie id sensora

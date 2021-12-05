@@ -27,6 +27,7 @@
             <input type="hidden" name="sort" value="@ViewData["SORT"]" />
             <input type="hidden" name="order" value="@ViewData["ORDER"]" />
             <input type="hidden" name="sensor" value="wind" />
+            <input type="hidden" name="actionName" value="SensorTable" />
             
             <span> From: </span>
             <input name="minDate" type="date" value="@ViewData["MINDATE"]"/>
@@ -45,118 +46,129 @@
                 size = Model.PageSize,
                 sort = ViewData["SORT"],
                 order = ViewData["ORDER"],
-                sensor = "wind"
+                sensor = "wind",
+                actionName = "SensorTable"
             })
         }
-        <table >
-            <tr style=" border-bottom:1px dotted gray">
-                <th class="table-dark" style="text-align: center">
-                    @Html.ActionLink("Date", "SortTable", new
-                    {
-                        mac = ViewData["MAC"],
-                        minDate = ViewData["MINDATE"],
-                        maxDate = ViewData["MAXDATE"],
-                        page = Model.PageIndex,
-                        size = Model.PageSize,
-                        sort = "date",
-                        sensor = "wind",
-                        oldSort = ViewData["SORT"],
-                        oldOrder = ViewData["ORDER"],
-                        actionName = "SensorTable"
-                    })
-                </th>
-                <th class="table-dark" style="text-align: center">
-                    @Html.ActionLink("Value", "SortTable", new
-                    {
-                        mac = ViewData["MAC"],
-                        minDate = ViewData["MINDATE"],
-                        maxDate = ViewData["MAXDATE"],
-                        page = Model.PageIndex,
-                        size = Model.PageSize,
-                        sort = "value",
-                        sensor = "wind",
-                        oldSort = ViewData["SORT"],
-                        oldOrder = ViewData["ORDER"],
-                        actionName = "SensorTable"
-                    })
-                </th>
-                <th class="table-dark" style="text-align: center">Direct. </th>
-            </tr>
+        
+        <br/><br/>
+        
+        @if (Model.Items.Any())
+        {
+            <table >
+                <tr style=" border-bottom:1px dotted gray">
+                    <th class="table-dark" style="text-align: center">
+                        @Html.ActionLink("Date", "SortTable", new
+                        {
+                            mac = ViewData["MAC"],
+                            minDate = ViewData["MINDATE"],
+                            maxDate = ViewData["MAXDATE"],
+                            page = Model.PageIndex,
+                            size = Model.PageSize,
+                            sort = "date",
+                            sensor = "wind",
+                            oldSort = ViewData["SORT"],
+                            oldOrder = ViewData["ORDER"],
+                            actionName = "SensorTable"
+                        })
+                    </th>
+                    <th class="table-dark" style="text-align: center">
+                        @Html.ActionLink("Value", "SortTable", new
+                        {
+                            mac = ViewData["MAC"],
+                            minDate = ViewData["MINDATE"],
+                            maxDate = ViewData["MAXDATE"],
+                            page = Model.PageIndex,
+                            size = Model.PageSize,
+                            sort = "value",
+                            sensor = "wind",
+                            oldSort = ViewData["SORT"],
+                            oldOrder = ViewData["ORDER"],
+                            actionName = "SensorTable"
+                        })
+                    </th>
+                    <th class="table-dark" style="text-align: center">Direct. </th>
+                </tr>
 
-            @for (int k = 0; k < Model.Items.Count; k++)
-            {
-                var data = Model.Items[k];
-                    
-                <tr style=" border-bottom:1px dashed gray">
-                    @if (k % 2 != 0)
+                @for (int k = 0; k < Model.Items.Count; k++)
+                {
+                    var data = Model.Items[k];
+
+                    <tr style=" border-bottom:1px dashed gray">
+                        @if (k % 2 != 0)
+                        {
+                            <td class="table-dark" style=" text-align: center">
+                                @data.DateTime.ToString("yyyy-MM-dd HH:mm:ss.fff")
+                            </td>
+                            <td class="table-dark" style=" text-align: center">
+                                @data.Speed
+                            </td>
+                            <td class="table-dark" style=" text-align: center">
+                                @data.Direction
+                            </td>
+                        }
+                        else
+                        {
+                            <td style=" text-align: center">
+                                @data.DateTime.ToString("yyyy-MM-dd HH:mm:ss.fff")
+                            </td>
+                            <td style=" text-align: center">
+                                @data.Speed
+                            </td>
+                            <td style=" text-align: center">
+                                @data.Direction
+                            </td>
+                        }
+                    </tr>
+                }
+
+            </table>
+
+            <table >
+                <tr>
+                    @if (Model.PageIndex > 0)
                     {
-                        <td class="table-dark" style=" text-align: center">
-                            @data.DateTime.ToString("yyyy-MM-dd HH:mm:ss.fff")
-                        </td>
-                        <td class="table-dark" style=" text-align: center">
-                            @data.Speed
-                        </td>
-                        <td class="table-dark" style=" text-align: center">
-                            @data.Direction
+                        var prevPageIndex = Model.PageIndex - 1;
+                        <td>
+                            @Html.ActionLink("Previous", "SensorTable", new
+                            {
+                                mac = ViewData["MAC"],
+                                minDate = ViewData["MINDATE"],
+                                maxDate = ViewData["MAXDATE"],
+                                page = prevPageIndex,
+                                size = Model.PageSize,
+                                sort = "value",
+                                sensor = "wind",
+                                oldSort = ViewData["SORT"],
+                                oldOrder = ViewData["ORDER"]
+                            })
                         </td>
                     }
-                    else
+                    @if (Model.PageIndex < Model.TotalPages - 1)
                     {
-                        <td style=" text-align: center">
-                            @data.DateTime.ToString("yyyy-MM-dd HH:mm:ss.fff")
+                        var nextPageIndex = Model.PageIndex + 1;
+                        <td>
+                            @Html.ActionLink("Next", "SensorTable", new
+                            {
+                                mac = ViewData["MAC"],
+                                minDate = ViewData["MINDATE"],
+                                maxDate = ViewData["MAXDATE"],
+                                page = nextPageIndex,
+                                size = Model.PageSize,
+                                sort = "value",
+                                sensor = "wind",
+                                oldSort = ViewData["SORT"],
+                                oldOrder = ViewData["ORDER"]
+                            })
                         </td>
-                        <td style=" text-align: center">
-                            @data.Speed
-                        </td>
-                        <td style=" text-align: center">
-                            @data.Direction
-                        </td>
-                    }   
+                    }
                 </tr>
-            }
-
-        </table>
-        
-        <table >
-            <tr>
-             @if (Model.PageIndex > 0)
-                {
-                    var prevPageIndex = Model.PageIndex - 1;
-                    <td>
-                        @Html.ActionLink("Previous", "SensorTable", new
-                        {
-                            mac = ViewData["MAC"],
-                            minDate = ViewData["MINDATE"],
-                            maxDate = ViewData["MAXDATE"],
-                            page = prevPageIndex,
-                            size = Model.PageSize,
-                            sort = "value",
-                            sensor = "wind",
-                            oldSort = ViewData["SORT"],
-                            oldOrder = ViewData["ORDER"]
-                        })
-                    </td>
-                }
-                @if (Model.PageIndex < Model.TotalPages - 1)
-                {
-                    var nextPageIndex = Model.PageIndex + 1;
-                    <td>
-                        @Html.ActionLink("Next", "SensorTable", new
-                        {
-                            mac = ViewData["MAC"],
-                            minDate = ViewData["MINDATE"],
-                            maxDate = ViewData["MAXDATE"],
-                            page = nextPageIndex,
-                            size = Model.PageSize,
-                            sort = "value",
-                            sensor = "wind",
-                            oldSort = ViewData["SORT"],
-                            oldOrder = ViewData["ORDER"]
-                        })
-                    </td>
-                }
-            </tr>
-        </table>
+            </table>
+        }
+        else
+        {
+            <p><b> No data available </b></p>
+        }
     </div>
     
     <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>

@@ -6,53 +6,79 @@
     <div class="Row">
         <h5 class="display-7">Download data: </h5>
 
-        <a asp-controller="Rest" asp-action="getTemperatureData" asp-route-format="json" target="_blank" class="aLink">Download JSON</a>
+        <a asp-controller="Rest" asp-action="getTemperatureData" asp-route-format="json" asp-route-minDate="@ViewData["MINDATE"]" 
+           asp-route-maxDate="@ViewData["MAXDATE"]" target="_blank" class="aLink">Download JSON</a>
         <spacer type="horizontal" width="100" height="100"> </spacer>
-        <a asp-controller="Rest" asp-action="getTemperatureData" asp-route-format="csv" target="_blank" class="aLink">Download CSV</a>
+        <a asp-controller="Rest" asp-action="getTemperatureData" asp-route-format="csv" asp-route-minDate="@ViewData["MINDATE"]" 
+           asp-route-maxDate="@ViewData["MAXDATE"]" target="_blank" class="aLink">Download CSV</a>
     </div>
     
     <div class="Row">
-        @if (Model.ToList().Count > 0)
-        {
-            <table >
-                <tr >
-                    @foreach (var sensor in Model)
-                    {
-                        <th class="table-dark" style="text-align: center; border-bottom:3px dashed gray">Sensor: </th>
-                        <th class="table-dark" style="text-align: center;  border-right:3px dashed gray; border-bottom:3px dashed gray">@sensor.ElementAt(0).MacAddress </th>
-                    }
-                </tr>
-                <tr style=" border-bottom:1px dotted gray">
-                    @foreach (var _ in Model)
-                    {
-                        <th class="table-dark" style="text-align: center">
-                            @Html.ActionLink("Date", "SortTable", new
-                            {
-                                sort = "date", 
-                                oldSort = ViewData["SORT"], 
-                                oldOrder = ViewData["ORDER"],
-                                actionName = "TemperatureTable"
-                            })
-                        </th>
-                        <th class="table-dark" style="text-align: center;  border-right:3px dashed gray">
-                            @Html.ActionLink("Value", "SortTable", new
-                            {
-                                sort = "value", 
-                                oldSort = ViewData["SORT"], 
-                                oldOrder = ViewData["ORDER"],
-                                actionName = "TemperatureTable"
-                            })
-                        </th>
-                    }
-                </tr>
+        <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="SetFilter">
+            <input type="hidden" name="sort" value="@ViewData["SORT"]" />
+            <input type="hidden" name="order" value="@ViewData["ORDER"]" />
+            <input type="hidden" name="actionName" value="TemperatureTable" />
+            
+            <span> From: </span>
+            <input name="minDate" type="date" value="@ViewData["MINDATE"]"/>
+            <span> To: </span>
+            <input name="maxDate" type="date" value="@ViewData["MAXDATE"]"/>
 
+            <input type="submit" value="Add filter"/>
+        </form>
+
+        @if (ViewData["MINDATE"] != null || ViewData["MAXDATE"] != null)
+        {
+            @Html.ActionLink("Reset filter", "SetFilter", new
+            {
+                sort = ViewData["SORT"],
+                order = ViewData["ORDER"],
+                actionName = "TemperatureTable"
+            })
+        }
+        
+        <br/><br/>
+        
+        <table >
+            <tr >
+                @foreach (var sensor in Model)
+                {
+                    <th class="table-dark" style="text-align: center; border-bottom:3px dashed gray">Sensor: </th>
+                    <th class="table-dark" style="text-align: center;  border-right:3px dashed gray; border-bottom:3px dashed gray">@sensor.ElementAt(0).MacAddress </th>
+                }
+            </tr>
+            <tr style=" border-bottom:1px dotted gray">
+                @foreach (var _ in Model)
+                {
+                    <th class="table-dark" style="text-align: center">
+                        @Html.ActionLink("Date", "SortTable", new
+                        {
+                            sort = "date",
+                            oldSort = ViewData["SORT"],
+                            oldOrder = ViewData["ORDER"],
+                            actionName = "TemperatureTable"
+                        })
+                    </th>
+                    <th class="table-dark" style="text-align: center;  border-right:3px dashed gray">
+                        @Html.ActionLink("Value", "SortTable", new
+                        {
+                            sort = "value",
+                            oldSort = ViewData["SORT"],
+                            oldOrder = ViewData["ORDER"],
+                            actionName = "TemperatureTable"
+                        })
+                    </th>
+                }
+            </tr>
+            @if (Model.Any())
+            {
                 @for (int i = 0; i < Model.ToList().Max(e => e.ToList().Count); i++)
                 {
                     <tr style=" border-bottom:1px dashed gray">
                         @for (int k = 0; k < Model.ToList().Count; k++)
                         {
                             var data = Model.ToList().ElementAtOrDefault(k).ToList().ElementAtOrDefault(i);
-                            
+
                             @if (data != null)
                             {
                                 @if (k % 2 != 0)
@@ -72,7 +98,7 @@
                                     <td style="padding: 20px; text-align: center; border-right:3px dotted gray">
                                         @data.Celsius °
                                     </td>
-                                }   
+                                }
                             }
                             else
                             {
@@ -85,13 +111,16 @@
                                 {
                                     <td style=" text-align: center"/>
                                     <td style="padding: 20px; text-align: center; border-right:3px dotted gray"/>
-                                }   
+                                }
                             }
                         }
                     </tr>
                 }
-
-            </table>
-        }
+            }
+            else
+            {
+                <p><b> No data available </b></p>
+            }
+        </table>
     </div>
 </div>
