@@ -4,16 +4,64 @@
 <div style="overflow:scroll;" class="example">
     <h1 class="display-4">@ViewData["NAME"]</h1>
     
+    <div id="chartTemperature" class="Column" style="height: 400px; width: 30%;"></div>
+    
+    <div class="Row">
+        <h5 class="display-7">Download data: </h5>
+        <a asp-controller="Rest" asp-action="getTemperatureData" asp-route-format="json" asp-route-address="@ViewData["MAC"]" 
+           asp-route-minDate="@ViewData["MINDATE"]" asp-route-maxDate="@ViewData["MAXDATE"]" target="_blank" class="aLink">Download JSON</a>
+        <spacer type="horizontal" width="100" height="100"> </spacer>
+        <a asp-controller="Rest" asp-action="getTemperatureData" asp-route-format="csv" asp-route-address="@ViewData["MAC"]" 
+           asp-route-minDate="@ViewData["MINDATE"]" asp-route-maxDate="@ViewData["MAXDATE"]" target="_blank" class="aLink">Download CSV</a>
+    </div>
+    
     <div class="Row">
         @if (Model.Items.Count > 0)
         {
             <h3>
                 Sensor data
             </h3>
+            <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="SetFilter">
+                
+                <input type="hidden" name="mac" value="@ViewData["MAC"]" />
+                <input type="hidden" name="page" value="@Model.PageIndex" />
+                <input type="hidden" name="size" value="@Model.PageSize" />
+                
+                <input name="minDate" type="date"/>
+                <input name="maxDate" type="date"/>
+
+                <input type="submit" value="Add filter"/>
+            </form>
             <table >
                 <tr style=" border-bottom:1px dotted gray">
-                    <th class="table-dark" style="text-align: center">Date</th>
-                    <th class="table-dark" style="text-align: center">Value </th>
+                    <th class="table-dark" style="text-align: center">
+                        @Html.ActionLink("Date", "SortTable", new
+                        {
+                            mac = ViewData["MAC"],
+                            minDate = ViewData["MINDATE"],
+                            maxDate = ViewData["MAXDATE"],
+                            page = Model.PageIndex,
+                            size = Model.PageSize,
+                            sort = "date",
+                            oldSort = ViewData["SORT"],
+                            oldOrder = ViewData["ORDER"],
+                            actionName = "SensorTable"
+                        })
+                    </th>
+                    <th class="table-dark" style="text-align: center">
+                        @Html.ActionLink("Value", "SortTable", new
+                        {
+                            mac = ViewData["MAC"],
+                            minDate = ViewData["MINDATE"],
+                            maxDate = ViewData["MAXDATE"],
+                            page = Model.PageIndex,
+                            size = Model.PageSize,
+                            sort = "value",
+                            oldSort = ViewData["SORT"],
+                            oldOrder = ViewData["ORDER"],
+                            actionName = "SensorTable"
+                        })
+                    </th>
                 </tr>
 
                 @for (int k = 0; k < Model.Items.Count; k++)
@@ -50,16 +98,34 @@
                     {
                         var prevPageIndex = Model.PageIndex - 1;
                         <td>
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="SensorTable"
-                               asp-route-mac="@Model.Items.FirstOrDefault().MacAddress" asp-route-page="@prevPageIndex" asp-route-size="@Model.PageSize">Previous</a>
+                            @Html.ActionLink("Previous", "SensorTable", new
+                            {
+                                mac = ViewData["MAC"],
+                                minDate = ViewData["MINDATE"],
+                                maxDate = ViewData["MAXDATE"],
+                                page = prevPageIndex,
+                                size = Model.PageSize,
+                                sort = "value",
+                                oldSort = ViewData["SORT"],
+                                oldOrder = ViewData["ORDER"]
+                            })
                         </td>
                     }
                     @if (Model.PageIndex < Model.TotalPages - 1)
                     {
                         var nextPageIndex = Model.PageIndex + 1;
                         <td>
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="SensorTable"
-                               asp-route-mac="@Model.Items.FirstOrDefault().MacAddress" asp-route-page="@nextPageIndex" asp-route-size="@Model.PageSize">Next</a>
+                            @Html.ActionLink("Next", "SensorTable", new
+                            {
+                                mac = ViewData["MAC"],
+                                minDate = ViewData["MINDATE"],
+                                maxDate = ViewData["MAXDATE"],
+                                page = nextPageIndex,
+                                size = Model.PageSize,
+                                sort = "value",
+                                oldSort = ViewData["SORT"],
+                                oldOrder = ViewData["ORDER"]
+                            })
                         </td>
                     }
                 </tr>
@@ -67,4 +133,15 @@
         }
         
     </div>
+    
+    <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+    <script type="text/javascript" src="~/js/temperatureChart.js"></script>
+    
+    <script type="text/javascript">
+        window.onload = function () {   
+            $.getJSON("/rest/json/temperature/avg",{'address': "@ViewData["MAC"]", 'minDate': "@ViewData["MINDATE"]", 
+                                                               'maxDate': "@ViewData["MAXDATE"]"},  addData3);
+        }
+    </script>
 </div>

@@ -24,8 +24,24 @@
                 <tr style=" border-bottom:1px dotted gray">
                     @foreach (var _ in Model)
                     {
-                        <th class="table-dark" style="text-align: center">Date</th>
-                        <th class="table-dark" style="text-align: center;">Speed </th>
+                        <th class="table-dark" style="text-align: center">
+                            @Html.ActionLink("Date", "SortTable", new
+                            {
+                                sort = "date", 
+                                oldSort = ViewData["SORT"], 
+                                oldOrder = ViewData["ORDER"],
+                                actionName = "WindTable"
+                            })
+                        </th>
+                        <th class="table-dark" style="text-align: center;  border-right:3px dashed gray">
+                            @Html.ActionLink("Value", "SortTable", new
+                            {
+                                sort = "value", 
+                                oldSort = ViewData["SORT"], 
+                                oldOrder = ViewData["ORDER"],
+                                actionName = "WindTable"
+                            })
+                        </th>
                         <th class="table-dark" style="text-align: center;  border-right:3px dashed gray">Direct. </th>
                     }
                 </tr>

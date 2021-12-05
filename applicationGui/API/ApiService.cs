@@ -11,14 +11,14 @@ namespace applicationGui.API
     //klasa wywołuje odpowiednie endpointy serwera 
     public class ApiService
     {
-        public PaginatedListSensor<PressureSensor> GetPressureSensorData(string address = null, 
-            int page = 0, int size = 0, string sort = null, string order = null)
+        public PaginatedListSensor<PressureSensor> GetPressureSensorData(string address = null, string minDate = null,
+            string maxDate = null, int page = 0, int size = 0, string sort = null, string order = null)
         {
             string responseBody = null;
 
-            if (address != null || page > 0 || size > 0 || sort != null || order != null)
+            if (address != null || minDate != null || maxDate != null || page > 0 || size > 0 || sort != null || order != null)
             {
-                responseBody = _makeHttpGet($"http://localhost:17584/api/sensors/pressure{CreateQuery(address,page,size,sort,order)}");
+                responseBody = _makeHttpGet($"http://localhost:17584/api/sensors/pressure{CreateQuery(address,minDate,maxDate,page,size,sort,order)}");
             }
             else
             {
@@ -42,14 +42,14 @@ namespace applicationGui.API
             return parsedList;
         }
 
-        public PaginatedListSensor<HumiditySensor> GetHumiditySensorData(string address = null, 
-            int page = 0, int size = 0, string sort = null, string order = null)
+        public PaginatedListSensor<HumiditySensor> GetHumiditySensorData(string address = null, string minDate = null,
+            string maxDate = null, int page = 0, int size = 0, string sort = null, string order = null)
         {
             string responseBody = null;
 
-            if (address != null || page > 0 || size > 0 || sort != null || order != null)
+            if (address != null || minDate != null || maxDate != null || page > 0 || size > 0 || sort != null || order != null)
             {
-                responseBody = _makeHttpGet($"http://localhost:17584/api/sensors/humidity{CreateQuery(address,page,size,sort,order)}");
+                responseBody = _makeHttpGet($"http://localhost:17584/api/sensors/humidity{CreateQuery(address,minDate,maxDate,page,size,sort,order)}");
             }
             else
             {
@@ -72,14 +72,14 @@ namespace applicationGui.API
             return parsedList;
         }
 
-        public PaginatedListSensor<TemperatureSensor> GetTemperatureSensorData(string address = null, 
-            int page = 0, int size = 0, string sort = null, string order = null)
+        public PaginatedListSensor<TemperatureSensor> GetTemperatureSensorData(string address = null, string minDate = null,
+            string maxDate = null, int page = 0, int size = 0, string sort = null, string order = null)
         {
             string responseBody = null;
 
-            if (address != null || page > 0 || size > 0 || sort != null || order != null)
+            if (address != null || minDate != null || maxDate != null || page > 0 || size > 0 || sort != null || order != null)
             {
-                responseBody = _makeHttpGet($"http://localhost:17584/api/sensors/temperature{CreateQuery(address,page,size,sort,order)}");
+                responseBody = _makeHttpGet($"http://localhost:17584/api/sensors/temperature{CreateQuery(address,minDate,maxDate,page,size,sort,order)}");
             }
             else
             {
@@ -121,14 +121,14 @@ namespace applicationGui.API
             return parsedList;
         }
 
-        public PaginatedListSensor<WindSensor> GetWindSensorData(string address = null, 
-            int page = 0, int size = 0, string sort = null, string order = null)
+        public PaginatedListSensor<WindSensor> GetWindSensorData(string address = null, string minDate = null,
+            string maxDate = null, int page = 0, int size = 0, string sort = null, string order = null)
         {
             string responseBody = null;
 
-            if (address != null || page > 0 || size > 0 || sort != null || order != null)
+            if (address != null || minDate != null || maxDate != null || page > 0 || size > 0 || sort != null || order != null)
             {
-                responseBody = _makeHttpGet($"http://localhost:17584/api/sensors/wind{CreateQuery(address,page,size,sort,order)}");
+                responseBody = _makeHttpGet($"http://localhost:17584/api/sensors/wind{CreateQuery(address,minDate,maxDate,page,size,sort,order)}");
             }
             else
             {
@@ -159,7 +159,7 @@ namespace applicationGui.API
             return parsedList;
         }
 
-        private string CreateQuery(string address, int page, int size, string sort, string order)
+        private string CreateQuery(string address, string minDate, string maxDate, int page, int size, string sort, string order)
         {
             StringBuilder queryBody = new StringBuilder();
             
@@ -167,6 +167,10 @@ namespace applicationGui.API
 
             if (address != null)
                 queryBody.Append($"address={address.Replace(":", "%3A")}&");
+            if (minDate != null)
+                queryBody.Append($"minDate={minDate}&");
+            if (maxDate != null)
+                queryBody.Append($"maxDate={maxDate}&");
             if (page > 0)
                 queryBody.Append($"page={page}&");
             if (size > 0)

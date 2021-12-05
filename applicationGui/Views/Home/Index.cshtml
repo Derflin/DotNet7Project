@@ -20,7 +20,8 @@
                         <tr>
                             <td style="text-align: left">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="SensorTable"
-                                   asp-route-mac="@mac" asp-route-page="0" asp-route-size="5">@mac</a>
+                                   asp-route-mac="@mac" asp-route-page="0" asp-route-size="100" asp-route-sort="date"
+                                   asp-route-order="desc">@mac</a>
                             </td>
                         </tr>
 
@@ -53,10 +54,10 @@
 
     <script type="text/javascript">
         window.onload = function () {   
-            $.getJSON("Rest/json/pressure/avg", addData);
-            $.getJSON("rest/json/humidity/avg", addData2);
-            $.getJSON("rest/json/temperature/avg", addData3);
-            $.getJSON("rest/json/wind/avg", addData4);
+            $.getJSON("/Rest/json/pressure/avg", addData);
+            $.getJSON("/rest/json/humidity/avg", addData2);
+            $.getJSON("/rest/json/temperature/avg", addData3);
+            $.getJSON("/rest/json/wind/avg", addData4);
         }
     </script>
 </div>
