@@ -22,7 +22,7 @@ namespace applicationApi.Services
         {
             DateTime testDate;
             DateTime? minDate = DateTime.TryParse(minDateText, out testDate) ? testDate : null;
-            DateTime? maxDate = DateTime.TryParse(maxDateText, out testDate) ? testDate : null;
+            DateTime? maxDate = DateTime.TryParse(maxDateText, out testDate) ? testDate.AddDays(1) : null;
             
             var findQuery = _windSensors.Find(wind => 
                 (filterMacAddress == null || wind.MacAddress == filterMacAddress) &&
