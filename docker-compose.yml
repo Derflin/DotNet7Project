@@ -10,7 +10,7 @@ services:
                 networks:
                         - backend
         api:
-                image: si_175831_api_image
+                image: 10.40.71.55:5000/si_175831_api_image
                 ports:
                         - "17584:44354"
                 depends_on:
@@ -19,7 +19,7 @@ services:
                         - backend
                         - frontend
         gui:
-                image: si_175831_gui_image
+                image: 10.40.71.55:5000/si_175831_gui_image
                 ports:
                         - "1758:80"
                         #- "17583:443"

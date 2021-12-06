@@ -18,11 +18,11 @@ namespace applicationGui.API
 
             if (address != null || minDate != null || maxDate != null || page > 0 || size > 0 || sort != null || order != null)
             {
-                responseBody = _makeHttpGet($"http://localhost:17584/api/sensors/pressure{CreateQuery(address,minDate,maxDate,page,size,sort,order)}");
+                responseBody = _makeHttpGet($"http://actina15.maas:17584/api/sensors/pressure{CreateQuery(address,minDate,maxDate,page,size,sort,order)}");
             }
             else
             {
-                responseBody = _makeHttpGet("http://localhost:17584/api/sensors/pressure");
+                responseBody = _makeHttpGet("http://actina15.maas:17584/api/sensors/pressure");
             }
 
             //List<PressureSensor> parsedList = JsonConvert.DeserializeObject<List<PressureSensor>>(responseBody);
@@ -49,11 +49,11 @@ namespace applicationGui.API
 
             if (address != null || minDate != null || maxDate != null || page > 0 || size > 0 || sort != null || order != null)
             {
-                responseBody = _makeHttpGet($"http://localhost:17584/api/sensors/humidity{CreateQuery(address,minDate,maxDate,page,size,sort,order)}");
+                responseBody = _makeHttpGet($"http://actina15.maas:17584/api/sensors/humidity{CreateQuery(address,minDate,maxDate,page,size,sort,order)}");
             }
             else
             {
-                responseBody = _makeHttpGet("http://localhost:17584/api/sensors/humidity");
+                responseBody = _makeHttpGet("http://actina15.maas:17584/api/sensors/humidity");
             }
             
             //List<HumiditySensor> parsedList = JsonConvert.DeserializeObject<List<HumiditySensor>>(responseBody);
@@ -79,11 +79,11 @@ namespace applicationGui.API
 
             if (address != null || minDate != null || maxDate != null || page > 0 || size > 0 || sort != null || order != null)
             {
-                responseBody = _makeHttpGet($"http://localhost:17584/api/sensors/temperature{CreateQuery(address,minDate,maxDate,page,size,sort,order)}");
+                responseBody = _makeHttpGet($"http://actina15.maas:17584/api/sensors/temperature{CreateQuery(address,minDate,maxDate,page,size,sort,order)}");
             }
             else
             {
-                responseBody = _makeHttpGet("http://localhost:17584/api/sensors/temperature");
+                responseBody = _makeHttpGet("http://actina15.maas:17584/api/sensors/temperature");
             }
 
             PaginatedListSensor<TemperatureSensor> parsedList = JsonConvert.DeserializeObject<PaginatedListSensor<TemperatureSensor>>(responseBody);
@@ -128,11 +128,11 @@ namespace applicationGui.API
 
             if (address != null || minDate != null || maxDate != null || page > 0 || size > 0 || sort != null || order != null)
             {
-                responseBody = _makeHttpGet($"http://localhost:17584/api/sensors/wind{CreateQuery(address,minDate,maxDate,page,size,sort,order)}");
+                responseBody = _makeHttpGet($"http://actina15.maas:17584/api/sensors/wind{CreateQuery(address,minDate,maxDate,page,size,sort,order)}");
             }
             else
             {
-                responseBody = _makeHttpGet("http://localhost:17584/api/sensors/wind");
+                responseBody = _makeHttpGet("http://actina15.maas:17584/api/sensors/wind");
             }
 
             PaginatedListSensor<WindSensor> parsedList = JsonConvert.DeserializeObject<PaginatedListSensor<WindSensor>>(responseBody);
@@ -153,7 +153,7 @@ namespace applicationGui.API
 
         public List<string> GetAllSensors()
         {
-            var responseBody = _makeHttpGet("http://localhost:17584/api/sensors");
+            var responseBody = _makeHttpGet("http://actina15.maas:17584/api/sensors");
             List<string> parsedList = JsonConvert.DeserializeObject<List<string>>(responseBody);
             
             return parsedList;
