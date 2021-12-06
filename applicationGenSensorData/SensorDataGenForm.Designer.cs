@@ -1,7 +1,7 @@
 ﻿
-namespace applicationGenSensorData
+namespace SensorDataGen
 {
-    partial class GenSensorDataForm
+    partial class SensorDataGenForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -133,6 +133,9 @@ namespace applicationGenSensorData
             // 
             // sensorsLB
             // 
+            this.sensorsLB.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.sensorsLB.HideSelection = false;
             this.sensorsLB.Location = new System.Drawing.Point(6, 20);
             this.sensorsLB.Margin = new System.Windows.Forms.Padding(0);
@@ -145,6 +148,8 @@ namespace applicationGenSensorData
             // 
             // addSensorGB
             // 
+            this.addSensorGB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.addSensorGB.Controls.Add(this.sensorsNumberNUD);
             this.addSensorGB.Controls.Add(this.sensorsNumberLabel);
             this.addSensorGB.Controls.Add(this.addSensorAddBt);
@@ -328,15 +333,16 @@ namespace applicationGenSensorData
             this.addSensorTypeLabel.TabIndex = 0;
             this.addSensorTypeLabel.Text = "Typ sensora";
             // 
-            // GenSensorDataForm
+            // SensorDataGenForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.bottomPanel);
-            this.Name = "GenSensorDataForm";
-            this.Text = "GenSensorData";
+            this.MinimumSize = new System.Drawing.Size(818, 497);
+            this.Name = "SensorDataGenForm";
+            this.Text = "SensorDataGen";
             this.bottomPanel.ResumeLayout(false);
             this.bottomPanel.PerformLayout();
             this.mainPanel.ResumeLayout(false);

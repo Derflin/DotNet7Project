@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace applicationGenSensorData.Classes.Sensors
+namespace SensorDataGen.Classes.Sensors
 {
     [Serializable]
     class Humidity : Sensor

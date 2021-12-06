@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-using applicationGenSensorData.Classes.Sensors;
+using SensorDataGen.Classes.Sensors;
 using System.Diagnostics;
 
-namespace applicationGenSensorData.Classes.Controllers
+namespace SensorDataGen.Classes.Controllers
 {
     class SensorsController
     {

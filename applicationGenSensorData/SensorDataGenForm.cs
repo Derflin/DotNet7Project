@@ -8,19 +8,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using RabbitMQ.Client;
-using applicationGenSensorData.Classes;
-using applicationGenSensorData.Classes.Controllers;
+using SensorDataGen.Classes;
+using SensorDataGen.Classes.Controllers;
 using System.Threading;
-using applicationGenSensorData.Classes.Sensors;
+using SensorDataGen.Classes.Sensors;
 
-namespace applicationGenSensorData
+namespace SensorDataGen
 {
-    public partial class GenSensorDataForm : Form
+    public partial class SensorDataGenForm : Form
     {
         private RabbitMQController rabbitController;
         private SensorsController sensorsController;
 
-        public GenSensorDataForm()
+        public SensorDataGenForm()
         {
             InitializeComponent();
             InitControllers();
@@ -109,6 +109,7 @@ namespace applicationGenSensorData
                         ListViewItem listViewItem = new ListViewItem($"MAC: {sensor.macAddress} Typ: {((KeyValuePair<string, string>)addSensorTypeCB.SelectedItem).Value} Min: {sensor.GetMinValue()} Max: {sensor.GetMaxValue()} DnS: {dataPerSec}");
                         listViewItem.Tag = sensor;
                         sensorsLB.Items.Add(listViewItem);
+                        sensorsLB.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
                     }
                 }
                 else

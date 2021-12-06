@@ -4,13 +4,13 @@ using System.Text;
 using RabbitMQ.Client;
 using System.Threading;
 
-namespace applicationGenSensorData.Classes
+namespace SensorDataGen.Classes
 {
     class RabbitMQController
     {
         IConnection _connection;
         IModel _channel;
-        //*
+        
         public RabbitMQController()
         {
             var factory = new ConnectionFactory()
@@ -55,13 +55,5 @@ namespace applicationGenSensorData.Classes
                 body: body);
             Console.WriteLine(" [x] Published {0} to RabbitMQ", data);
         }
-        //*/
-        /*
-        public RabbitMQController() { }
-        public void SendData(string data)
-        {
-            Console.WriteLine(" [x] Published {0} to RabbitMQ", data);
-        }
-        //*/
     }
 }
