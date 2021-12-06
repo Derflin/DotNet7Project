@@ -42,7 +42,12 @@
                 @foreach (var sensor in Model)
                 {
                     <th class="table-dark" style="text-align: center; border-bottom:3px dashed gray">Sensor: </th>
-                    <th class="table-dark" style="text-align: center;  border-right:3px dashed gray; border-bottom:3px dashed gray">@sensor.ElementAt(0).MacAddress </th>
+                    @*<th class="table-dark" style="text-align: center;  border-right:3px dashed gray; border-bottom:3px dashed gray">@sensor.ElementAt(0).MacAddress </th>*@
+                    <th class="table-dark" style="text-align: center;  border-right:3px dashed gray; border-bottom:3px dashed gray">
+                        <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="SensorTable"
+                           asp-route-mac="@sensor.ElementAt(0).MacAddress" asp-route-page="0" asp-route-size="100" 
+                           asp-route-sort="date" asp-route-order="desc">@sensor.ElementAt(0).MacAddress</a>
+                    </th>
                 }
             </tr>
             <tr style=" border-bottom:1px dotted gray">
