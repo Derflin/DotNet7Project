@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using applicationApi.Controllers;
@@ -104,9 +105,10 @@ namespace applicationApi.Services
                 {
                     case "humidity":
                         var humiditySensor = new HumiditySensor();
+                        data[2] = data[2].Replace(',', '.');
                         humiditySensor.DateTime = DateTime.Now;
                         humiditySensor.MacAddress = data[0];
-                        humiditySensor.Humidity = Double.Parse(data[2]);
+                        humiditySensor.Humidity = Double.Parse(data[2], CultureInfo.InvariantCulture);
                         _humiditySensorService.Create(humiditySensor);
                         _logger.LogInformation($"Data from humidity sensor \"{humiditySensor.MacAddress}\" received");
                         break;
@@ -120,10 +122,12 @@ namespace applicationApi.Services
                         break;
                     case "temperature":
                         var temperatureSensor = new TemperatureSensor();
+                        data[2] = data[2].Replace(',', '.');
+                        data[3] = data[3].Replace(',', '.');
                         temperatureSensor.DateTime = DateTime.Now;
                         temperatureSensor.MacAddress = data[0];
-                        temperatureSensor.Celsius = Double.Parse(data[2]);
-                        temperatureSensor.Fahrenheit = Double.Parse(data[3]);
+                        temperatureSensor.Celsius = Double.Parse(data[2], CultureInfo.InvariantCulture);
+                        temperatureSensor.Fahrenheit = Double.Parse(data[3], CultureInfo.InvariantCulture);
                         _temperatureSensorService.Create(temperatureSensor);
                         _logger.LogInformation($"Data from temperature sensor \"{temperatureSensor.MacAddress}\" received");
                         break;
