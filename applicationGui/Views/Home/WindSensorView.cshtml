@@ -87,7 +87,7 @@
                             actionName = "SensorTable"
                         })
                     </th>
-                    <th class="table-dark" style="text-align: center">Direct. </th>
+                    <th class="table-dark" style="text-align: center">Direction </th>
                 </tr>
 
                 @for (int k = 0; k < Model.Items.Count; k++)
@@ -100,10 +100,10 @@
                             <td class="table-dark" style=" text-align: center">
                                 @data.DateTime.ToString("yyyy-MM-dd HH:mm:ss.fff")
                             </td>
-                            <td class="table-dark" style=" text-align: center">
+                            <td class="table-dark" style="padding: 20px; text-align: center;">
                                 @data.Speed
                             </td>
-                            <td class="table-dark" style=" text-align: center">
+                            <td class="table-dark" style="padding: 20px; text-align: center;">
                                 @data.Direction
                             </td>
                         }
@@ -112,10 +112,10 @@
                             <td style=" text-align: center">
                                 @data.DateTime.ToString("yyyy-MM-dd HH:mm:ss.fff")
                             </td>
-                            <td style=" text-align: center">
+                            <td style="padding: 20px; text-align: center;">
                                 @data.Speed
                             </td>
-                            <td style=" text-align: center">
+                            <td style="padding: 20px; text-align: center;">
                                 @data.Direction
                             </td>
                         }
