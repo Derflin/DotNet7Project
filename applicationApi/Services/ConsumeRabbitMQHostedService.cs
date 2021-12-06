@@ -42,8 +42,7 @@ namespace applicationApi.Services
       
         private void InitRabbitMQ()
         {
-            // TODO: change HostName to "rabbit" - when running on docker 
-            var factory = new ConnectionFactory { HostName = "localhost", UserName = "guest", Password = "guest" };
+            var factory = new ConnectionFactory { HostName = "rabbit", UserName = "guest", Password = "guest" };
             int retries = 5;
             while (true)
             {
