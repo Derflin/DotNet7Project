@@ -96,7 +96,7 @@ namespace applicationApi.Services
       
         private void HandleMessage(string content)  
         {
-            _logger.LogInformation($"consumer received: {content}");
+            //_logger.LogInformation($"consumer received: {content}");
             string[] data = content.Split(";");
             if (data.Length > 2)
             {
@@ -109,6 +109,7 @@ namespace applicationApi.Services
                         humiditySensor.MacAddress = data[0];
                         humiditySensor.Humidity = Double.Parse(data[2]);
                         _humiditySensorService.Create(humiditySensor);
+                        _logger.LogInformation($"Data from humidity sensor \"{humiditySensor.MacAddress}\" received");
                         break;
                     case "pressure":
                         var pressureSensor = new PressureSensor();
@@ -116,6 +117,7 @@ namespace applicationApi.Services
                         pressureSensor.MacAddress = data[0];
                         pressureSensor.Pressure = Int32.Parse(data[2]);
                         _pressureSensorService.Create(pressureSensor);
+                        _logger.LogInformation($"Data from pressure sensor \"{pressureSensor.MacAddress}\" received");
                         break;
                     case "temperature":
                         var temperatureSensor = new TemperatureSensor();
@@ -124,6 +126,7 @@ namespace applicationApi.Services
                         temperatureSensor.Celsius = Double.Parse(data[2]);
                         temperatureSensor.Fahrenheit = Double.Parse(data[3]);
                         _temperatureSensorService.Create(temperatureSensor);
+                        _logger.LogInformation($"Data from temperature sensor \"{temperatureSensor.MacAddress}\" received");
                         break;
                     case "wind":
                         var windSensor = new WindSensor();
@@ -132,6 +135,7 @@ namespace applicationApi.Services
                         windSensor.Speed = Int32.Parse(data[2]);
                         windSensor.Direction = Int32.Parse(data[3]);
                         _windSensorService.Create(windSensor);
+                        _logger.LogInformation($"Data from wind sensor \"{windSensor.MacAddress}\" received");
                         break;
                 }
             }

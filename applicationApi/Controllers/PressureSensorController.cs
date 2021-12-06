@@ -22,6 +22,7 @@ namespace applicationApi.Controllers
         [HttpGet]
         public ActionResult<PaginatedListSensor<PressureSensor>> Get(string address, string minDate, string maxDate, int page, int size, string sort, string order)
         {
+            _logger.LogInformation("Get request acquired for paginated list of pressure sensors");
             List<PressureSensor> items = _pressureSensorService.Get(address, minDate, maxDate, sort, order);
             PaginatedListSensor<PressureSensor> paginatedList =
                 new PaginatedListSensor<PressureSensor>(items, items.Count, page, size);
@@ -32,6 +33,7 @@ namespace applicationApi.Controllers
         [HttpGet("{format}")]
         public ActionResult<List<PressureSensor>> GetFilter(string format, string address, string minDate, string maxDate, int page, int size, string sort, string order)
         {
+            _logger.LogInformation($"Get request acquired for formatted \"{format}\" list of pressure sensors");
             List<PressureSensor> items = _pressureSensorService.Get(address, minDate, maxDate, sort, order);
             PaginatedListSensor<PressureSensor> paginatedList =
                 new PaginatedListSensor<PressureSensor>(items, items.Count, page, size);

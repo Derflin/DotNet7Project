@@ -33,6 +33,7 @@ namespace applicationApi.Controllers
         [HttpGet]
         public List<string> GetDistinctSensors()
         {
+            _logger.LogInformation("Get request acquired for list of all sensors addresses");
             var listHumidity = _humiditySensorService.GetDistinctMacAddresses();
             var listPressure = _pressureSensorService.GetDistinctMacAddresses();
             var listTemperature = _temperatureSensorService.GetDistinctMacAddresses();
@@ -44,6 +45,7 @@ namespace applicationApi.Controllers
         [HttpDelete]
         public IActionResult ClearData()
         {
+            _logger.LogInformation("Delete request acquired for clearing database data");
             _humiditySensorService.RemoveAll();
             _pressureSensorService.RemoveAll();
             _temperatureSensorService.RemoveAll();
@@ -51,25 +53,5 @@ namespace applicationApi.Controllers
             
             return NoContent();
         }
-        
-        /*
-         TODO: something with formatters
-        [HttpGet("getDistinctSensorsJson")]
-        public IActionResult ListJson()
-        {
-            List<String> sensors = this.GetDistinctSensors();
-
-            return Ok(sensors);
-        }
-        
-        [Produces("text/csv")]
-        [HttpGet("getDistinctSensorsCsv")]
-        public IActionResult ListCsv()
-        {
-            List<String> sensors = this.GetDistinctSensors();
-
-            return Ok(sensors);
-        }
-        */
     }
 }

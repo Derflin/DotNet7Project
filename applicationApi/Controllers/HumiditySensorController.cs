@@ -23,6 +23,7 @@ namespace applicationApi.Controllers
         [HttpGet]
         public ActionResult<PaginatedListSensor<HumiditySensor>> Get(string address, string minDate, string maxDate, int page, int size, string sort, string order)
         {
+            _logger.LogInformation("Get request acquired for paginated list of humidity sensors");
             List<HumiditySensor> items = _humiditySensorService.Get(address, minDate, maxDate, sort, order);
             PaginatedListSensor<HumiditySensor> paginatedList =
                 new PaginatedListSensor<HumiditySensor>(items, items.Count, page, size);
@@ -33,6 +34,7 @@ namespace applicationApi.Controllers
         [HttpGet("{format}")]
         public ActionResult<List<HumiditySensor>> GetFilter(string format, string address, string minDate, string maxDate, int page, int size, string sort, string order)
         {
+            _logger.LogInformation($"Get request acquired for formatted \"{format}\" list of humidity sensors");
             List<HumiditySensor> items = _humiditySensorService.Get(address, minDate, maxDate, sort, order);
             PaginatedListSensor<HumiditySensor> paginatedList =
                 new PaginatedListSensor<HumiditySensor>(items, items.Count, page, size);
