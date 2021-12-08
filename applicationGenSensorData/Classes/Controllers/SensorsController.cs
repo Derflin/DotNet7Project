@@ -52,23 +52,23 @@ namespace SensorDataGen.Classes.Controllers
             sensors.Add(sensor);
             return sensor;
         }
-        public Sensor AddSensor(string sensorType, decimal minValue, decimal maxValue, int dataPerSec)
+        public Sensor AddSensor(string mac, string sensorType, decimal minValue, decimal maxValue, int dataPerSec)
         {
             Sensor sensor = null;
 
             switch (sensorType)
             {
                 case "wind":
-                    sensor = new Wind(decimal.ToInt32(minValue), decimal.ToInt32(maxValue), dataPerSec);
+                    sensor = new Wind(mac, decimal.ToInt32(minValue), decimal.ToInt32(maxValue), dataPerSec);
                     break;
                 case "temperature":
-                    sensor = new Temperature(decimal.ToDouble(minValue), decimal.ToDouble(maxValue), dataPerSec);
+                    sensor = new Temperature(mac, decimal.ToDouble(minValue), decimal.ToDouble(maxValue), dataPerSec);
                     break;
                 case "pressure":
-                    sensor = new Pressure(decimal.ToInt32(minValue), decimal.ToInt32(maxValue), dataPerSec);
+                    sensor = new Pressure(mac, decimal.ToInt32(minValue), decimal.ToInt32(maxValue), dataPerSec);
                     break;
                 case "humidity":
-                    sensor = new Humidity(decimal.ToDouble(minValue), decimal.ToDouble(maxValue), dataPerSec);
+                    sensor = new Humidity(mac, decimal.ToDouble(minValue), decimal.ToDouble(maxValue), dataPerSec);
                     break;
             }
 

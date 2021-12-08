@@ -25,14 +25,18 @@ namespace SensorDataGen.Classes.Sensors
             sensorType = "wind";
         }
 
-        public Wind(int minValue, int maxValue, int dataPerSec)
+        public Wind(string mac, int minValue, int maxValue, int dataPerSec)
         {
             this.minValue = minValue;
             this.maxValue = maxValue;
             this.dataPerSec = dataPerSec;
 
+            if (mac.Length == 0)
+                macAddress = GetRandomMacAddress();
+            else
+                macAddress = mac;
+
             dataGenSpeed = GetDataPerSec(dataPerSec);
-            macAddress = GetRandomMacAddress();
             speed = GenerateRandomValue();
             direction = GenerateRandomValue(0, 360);
             sensorType = "wind";

@@ -97,6 +97,7 @@ namespace SensorDataGen
             {
                 decimal minValue = advanceMinNUD.Value;
                 decimal maxValue = advanceMaxNUD.Value;
+                string macAddress = advanceMacTB.Text;
 
                 int dataPerSec = decimal.ToInt32(advanceDataPerSecNUD.Value);
 
@@ -104,7 +105,7 @@ namespace SensorDataGen
                 {
                     for (int i = 0; i < sensorsNumber; i++)
                     {
-                        sensor = sensorsController.AddSensor(sensorType, minValue, maxValue, dataPerSec);
+                        sensor = sensorsController.AddSensor(macAddress, sensorType, minValue, maxValue, dataPerSec);
                         
                         ListViewItem listViewItem = new ListViewItem($"MAC: {sensor.macAddress} Typ: {((KeyValuePair<string, string>)addSensorTypeCB.SelectedItem).Value} Min: {sensor.GetMinValue()} Max: {sensor.GetMaxValue()} DnS: {dataPerSec}");
                         listViewItem.Tag = sensor;

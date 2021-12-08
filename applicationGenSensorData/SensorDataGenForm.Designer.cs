@@ -50,6 +50,8 @@ namespace SensorDataGen
             this.addSensorAdvanceCheck = new System.Windows.Forms.CheckBox();
             this.addSensorTypeCB = new System.Windows.Forms.ComboBox();
             this.addSensorTypeLabel = new System.Windows.Forms.Label();
+            this.advanceMacLabel = new System.Windows.Forms.Label();
+            this.advanceMacTB = new System.Windows.Forms.TextBox();
             this.bottomPanel.SuspendLayout();
             this.mainPanel.SuspendLayout();
             this.sensorsGB.SuspendLayout();
@@ -64,7 +66,7 @@ namespace SensorDataGen
             // startBt
             // 
             this.startBt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.startBt.Location = new System.Drawing.Point(594, 14);
+            this.startBt.Location = new System.Drawing.Point(769, 14);
             this.startBt.Name = "startBt";
             this.startBt.Size = new System.Drawing.Size(94, 29);
             this.startBt.TabIndex = 1;
@@ -76,7 +78,7 @@ namespace SensorDataGen
             // 
             this.stopBt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.stopBt.Enabled = false;
-            this.stopBt.Location = new System.Drawing.Point(694, 14);
+            this.stopBt.Location = new System.Drawing.Point(869, 14);
             this.stopBt.Name = "stopBt";
             this.stopBt.Size = new System.Drawing.Size(94, 29);
             this.stopBt.TabIndex = 2;
@@ -92,7 +94,7 @@ namespace SensorDataGen
             this.bottomPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.bottomPanel.Location = new System.Drawing.Point(0, 395);
             this.bottomPanel.Name = "bottomPanel";
-            this.bottomPanel.Size = new System.Drawing.Size(800, 55);
+            this.bottomPanel.Size = new System.Drawing.Size(975, 55);
             this.bottomPanel.TabIndex = 3;
             // 
             // errorLabel
@@ -115,7 +117,7 @@ namespace SensorDataGen
             this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainPanel.Location = new System.Drawing.Point(0, 0);
             this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(800, 395);
+            this.mainPanel.Size = new System.Drawing.Size(975, 395);
             this.mainPanel.TabIndex = 4;
             // 
             // sensorsGB
@@ -124,9 +126,9 @@ namespace SensorDataGen
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.sensorsGB.Controls.Add(this.sensorsLB);
-            this.sensorsGB.Location = new System.Drawing.Point(345, 12);
+            this.sensorsGB.Location = new System.Drawing.Point(445, 12);
             this.sensorsGB.Name = "sensorsGB";
-            this.sensorsGB.Size = new System.Drawing.Size(443, 377);
+            this.sensorsGB.Size = new System.Drawing.Size(518, 377);
             this.sensorsGB.TabIndex = 1;
             this.sensorsGB.TabStop = false;
             this.sensorsGB.Text = "Sensory";
@@ -141,7 +143,7 @@ namespace SensorDataGen
             this.sensorsLB.Margin = new System.Windows.Forms.Padding(0);
             this.sensorsLB.MultiSelect = false;
             this.sensorsLB.Name = "sensorsLB";
-            this.sensorsLB.Size = new System.Drawing.Size(431, 351);
+            this.sensorsLB.Size = new System.Drawing.Size(506, 351);
             this.sensorsLB.TabIndex = 0;
             this.sensorsLB.UseCompatibleStateImageBehavior = false;
             this.sensorsLB.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.sensorLB_MouseDoubleClick);
@@ -159,7 +161,7 @@ namespace SensorDataGen
             this.addSensorGB.Controls.Add(this.addSensorTypeLabel);
             this.addSensorGB.Location = new System.Drawing.Point(12, 12);
             this.addSensorGB.Name = "addSensorGB";
-            this.addSensorGB.Size = new System.Drawing.Size(327, 377);
+            this.addSensorGB.Size = new System.Drawing.Size(427, 377);
             this.addSensorGB.TabIndex = 0;
             this.addSensorGB.TabStop = false;
             this.addSensorGB.Text = "Dodaj sensor";
@@ -198,7 +200,7 @@ namespace SensorDataGen
             // addSensorAddBt
             // 
             this.addSensorAddBt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.addSensorAddBt.Location = new System.Drawing.Point(227, 342);
+            this.addSensorAddBt.Location = new System.Drawing.Point(327, 342);
             this.addSensorAddBt.Name = "addSensorAddBt";
             this.addSensorAddBt.Size = new System.Drawing.Size(94, 29);
             this.addSensorAddBt.TabIndex = 3;
@@ -208,6 +210,8 @@ namespace SensorDataGen
             // 
             // addSensorAdvancePanel
             // 
+            this.addSensorAdvancePanel.Controls.Add(this.advanceMacTB);
+            this.addSensorAdvancePanel.Controls.Add(this.advanceMacLabel);
             this.addSensorAdvancePanel.Controls.Add(this.advanceMaxNUD);
             this.addSensorAdvancePanel.Controls.Add(this.advanceMinNUD);
             this.addSensorAdvancePanel.Controls.Add(this.advanceDataPerSecNUD);
@@ -217,13 +221,13 @@ namespace SensorDataGen
             this.addSensorAdvancePanel.Enabled = false;
             this.addSensorAdvancePanel.Location = new System.Drawing.Point(30, 131);
             this.addSensorAdvancePanel.Name = "addSensorAdvancePanel";
-            this.addSensorAdvancePanel.Size = new System.Drawing.Size(270, 139);
+            this.addSensorAdvancePanel.Size = new System.Drawing.Size(391, 191);
             this.addSensorAdvancePanel.TabIndex = 1;
             // 
             // advanceMaxNUD
             // 
             this.advanceMaxNUD.DecimalPlaces = 2;
-            this.advanceMaxNUD.Location = new System.Drawing.Point(138, 48);
+            this.advanceMaxNUD.Location = new System.Drawing.Point(140, 101);
             this.advanceMaxNUD.Maximum = new decimal(new int[] {
             1100,
             0,
@@ -241,7 +245,7 @@ namespace SensorDataGen
             // advanceMinNUD
             // 
             this.advanceMinNUD.DecimalPlaces = 2;
-            this.advanceMinNUD.Location = new System.Drawing.Point(138, 8);
+            this.advanceMinNUD.Location = new System.Drawing.Point(140, 61);
             this.advanceMinNUD.Maximum = new decimal(new int[] {
             1100,
             0,
@@ -258,7 +262,7 @@ namespace SensorDataGen
             // 
             // advanceDataPerSecNUD
             // 
-            this.advanceDataPerSecNUD.Location = new System.Drawing.Point(138, 88);
+            this.advanceDataPerSecNUD.Location = new System.Drawing.Point(140, 141);
             this.advanceDataPerSecNUD.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -281,7 +285,7 @@ namespace SensorDataGen
             // advanceDataPerSecLabel
             // 
             this.advanceDataPerSecLabel.AutoSize = true;
-            this.advanceDataPerSecLabel.Location = new System.Drawing.Point(10, 90);
+            this.advanceDataPerSecLabel.Location = new System.Drawing.Point(12, 143);
             this.advanceDataPerSecLabel.Name = "advanceDataPerSecLabel";
             this.advanceDataPerSecLabel.Size = new System.Drawing.Size(122, 20);
             this.advanceDataPerSecLabel.TabIndex = 5;
@@ -290,7 +294,7 @@ namespace SensorDataGen
             // advanceMinLabel
             // 
             this.advanceMinLabel.AutoSize = true;
-            this.advanceMinLabel.Location = new System.Drawing.Point(10, 10);
+            this.advanceMinLabel.Location = new System.Drawing.Point(12, 63);
             this.advanceMinLabel.Name = "advanceMinLabel";
             this.advanceMinLabel.Size = new System.Drawing.Size(72, 20);
             this.advanceMinLabel.TabIndex = 3;
@@ -299,7 +303,7 @@ namespace SensorDataGen
             // advanceMaxLabel
             // 
             this.advanceMaxLabel.AutoSize = true;
-            this.advanceMaxLabel.Location = new System.Drawing.Point(10, 50);
+            this.advanceMaxLabel.Location = new System.Drawing.Point(12, 103);
             this.advanceMaxLabel.Name = "advanceMaxLabel";
             this.advanceMaxLabel.Size = new System.Drawing.Size(81, 20);
             this.advanceMaxLabel.TabIndex = 4;
@@ -333,11 +337,27 @@ namespace SensorDataGen
             this.addSensorTypeLabel.TabIndex = 0;
             this.addSensorTypeLabel.Text = "Typ sensora";
             // 
+            // advanceMacLabel
+            // 
+            this.advanceMacLabel.AutoSize = true;
+            this.advanceMacLabel.Location = new System.Drawing.Point(12, 26);
+            this.advanceMacLabel.Name = "advanceMacLabel";
+            this.advanceMacLabel.Size = new System.Drawing.Size(83, 20);
+            this.advanceMacLabel.TabIndex = 8;
+            this.advanceMacLabel.Text = "Adres MAC";
+            // 
+            // advanceMacTB
+            // 
+            this.advanceMacTB.Location = new System.Drawing.Point(140, 23);
+            this.advanceMacTB.Name = "advanceMacTB";
+            this.advanceMacTB.Size = new System.Drawing.Size(236, 27);
+            this.advanceMacTB.TabIndex = 9;
+            // 
             // SensorDataGenForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(975, 450);
             this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.bottomPanel);
             this.MinimumSize = new System.Drawing.Size(818, 497);
@@ -381,6 +401,8 @@ namespace SensorDataGen
         private System.Windows.Forms.NumericUpDown sensorsNumberNUD;
         private System.Windows.Forms.Label sensorsNumberLabel;
         private System.Windows.Forms.ListView sensorsLB;
+        private System.Windows.Forms.TextBox advanceMacTB;
+        private System.Windows.Forms.Label advanceMacLabel;
     }
 }
 

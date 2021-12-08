@@ -22,14 +22,18 @@ namespace SensorDataGen.Classes.Sensors
             fahrenheit = CelsiusToFahrenheit(celsius);
             sensorType = "temperature";
         }
-        public Temperature(double minValue, double maxValue, int dataPerSec)
+        public Temperature(string mac, double minValue, double maxValue, int dataPerSec)
         {
             this.minValue = minValue;
             this.maxValue = maxValue;
             this.dataPerSec = dataPerSec;
 
+            if (mac.Length == 0)
+                macAddress = GetRandomMacAddress();
+            else
+                macAddress = mac;
+
             dataGenSpeed = GetDataPerSec(dataPerSec);
-            macAddress = GetRandomMacAddress();
             celsius = GenerateRandomValue();
             fahrenheit = CelsiusToFahrenheit(celsius);
             sensorType = "temperature";

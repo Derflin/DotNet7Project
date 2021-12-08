@@ -20,14 +20,18 @@ namespace SensorDataGen.Classes.Sensors
             pressure = GenerateRandomValue();
             sensorType = "pressure";
         }
-        public Pressure(int minValue, int maxValue, int dataPerSec)
+        public Pressure(string mac, int minValue, int maxValue, int dataPerSec)
         {
             this.minValue = minValue;
             this.maxValue = maxValue;
             this.dataPerSec = dataPerSec;
 
+            if (mac.Length == 0)
+                macAddress = GetRandomMacAddress();
+            else
+                macAddress = mac;
+
             dataGenSpeed = GetDataPerSec(dataPerSec);
-            macAddress = GetRandomMacAddress();
             pressure = GenerateRandomValue();
             sensorType = "pressure";
         }
